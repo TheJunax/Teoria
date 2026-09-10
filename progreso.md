@@ -75,9 +75,24 @@
 - 📄 tema5_probabilidad.html (Tema 5)
 - 📄 tema6_variables_aleatorias.html (Tema 6)
 - 📄 guia_rapida.html (Resumen temas 1-4)
-- 📄 guia_maestra.html (TODOS los 14 temas + cheat sheet + quiz final)
+- 📄 index.html (TODOS los 14 temas + cheat sheet + quiz final) — antes guia_maestra.html
+
+## GitHub
+
+- Repositorio: https://github.com/TheJunax/Teoria
+- Rama: main
+- Flujo aprendido: git add . → git commit -m "mensaje" → git push
+- index.html renombrado como página principal (subido)
+- PENDIENTE: Activar GitHub Pages (link sería https://thejunax.github.io/Teoria/)
+- PENDIENTE: Agregar probabilidad teórica (casos favorables/posibles) al index.html
 
 ## Sesiones anteriores
+
+### Sesión 2026-09-10 (parte 3: GitHub)
+- Subida del curso completo a GitHub (repo Teoria)
+- Renombrado guia_maestra.html → index.html (página principal)
+- Se enseñó el flujo git completo (init, add, commit, push)
+- Se identificó que index.html no tiene la probabilidad teórica básica (está en tema5_probabilidad.html)
 
 ### Sesión 2026-09-10 (parte 2)
 - Temas 6-14 explicados completos
