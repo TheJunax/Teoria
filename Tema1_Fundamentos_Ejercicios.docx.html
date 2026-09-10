@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tema 1: Fundamentos - Ejercicios Resueltos</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+h1 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+h2 {
+    color: #2980b9;
+    margin-top: 30px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 15px 0;
+}
+th, td {
+    border: 1px solid #bdc3c7;
+    padding: 10px 15px;
+    text-align: left;
+}
+th {
+    background-color: #3498db;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.correcto {
+    color: #27ae60;
+    font-weight: bold;
+}
+.incorrecto {
+    color: #e74c3c;
+    font-weight: bold;
+}
+.explicacion {
+    background-color: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin: 15px 0;
+}
+</style>
+</head>
+<body>
+
+<h1>Tema 1: Fundamentos - Ejercicios Resueltos</h1>
+
+<h2>Ejercicio 1: Población vs Muestra</h2>
+<p><strong>Enunciado:</strong> Un investigador quiere conocer el promedio de salario de los 800 empleados de una empresa. Para ello, selecciona 100 empleados al azar y les preguntan cuánto ganan.</p>
+
+<div class="explicacion">
+    <p><strong>Población:</strong> Los 800 empleados de la empresa.</p>
+    <p><strong>Muestra:</strong> Los 100 empleados seleccionados al azar.</p>
+</div>
+
+<h2>Ejercicio 2: Tipos de Variables</h2>
+<p><strong>Enunciado:</strong> Clasifica cada variable como categórica o numérica (discreta/continua).</p>
+
+<table>
+    <tr>
+        <th>Ítem</th>
+        <th>Descripción</th>
+        <th>Tu Respuesta</th>
+        <th>Correcta</th>
+        <th>Estado</th>
+    </tr>
+    <tr>
+        <td>a</td>
+        <td>Número de vecinos en tu edificio</td>
+        <td>Continua</td>
+        <td>Discreta</td>
+        <td class="incorrecto">❌</td>
+    </tr>
+    <tr>
+        <td>b</td>
+        <td>Marca de celular (Samsung, iPhone, Xiaomi...)</td>
+        <td>Categórica</td>
+        <td>Categórica</td>
+        <td class="correcto">✅</td>
+    </tr>
+    <tr>
+        <td>c</td>
+        <td>Temperatura del aire en Barranquilla a las 3pm</td>
+        <td>Discreta</td>
+        <td>Continua</td>
+        <td class="incorrecto">❌</td>
+    </tr>
+    <tr>
+        <td>d</td>
+        <td>Cantidad de hamburguesas que vende un McDonald's en un día</td>
+        <td>Discreta</td>
+        <td>Discreta</td>
+        <td class="correcto">✅</td>
+    </tr>
+    <tr>
+        <td>e</td>
+        <td>Color del uniforme de un equipo de fútbol</td>
+        <td>Categórica</td>
+        <td>Categórica</td>
+        <td class="correcto">✅</td>
+    </tr>
+</table>
+
+<div class="explicacion">
+    <p><strong>Explicación - Error a):</strong> El número de vecinos es un CONTEO (1, 2, 3...). No puedes tener 2.5 vecinos. Por eso es DISCRETA, no continua.</p>
+    <p><strong>Explicación - Error c):</strong> La temperatura puede ser 30°C, 30.5°C, 30.53°C... Es una MEDICIÓN que puede tomar cualquier valor. Por eso es CONTINUA, no discreta.</p>
+    <p><strong>Truco:</strong> Si puedes tener decimales que tengan sentido → continua. Si solo sirven los enteros (conteo) → discreta.</p>
+</div>
+
+<h2>Ejercicio 3: Escalas de Medición</h2>
+<p><strong>Enunciado:</strong> Identifica la escala de medición (nominal, ordinal, intervalo o razón).</p>
+
+<table>
+    <tr>
+        <th>Ítem</th>
+        <th>Descripción</th>
+        <th>Tu Respuesta</th>
+        <th>Correcta</th>
+        <th>Estado</th>
+    </tr>
+    <tr>
+        <td>a</td>
+        <td>Ranking de equipos en la tabla de posiciones de la Liga BetPlay</td>
+        <td>Intervalo</td>
+        <td>Ordinal</td>
+        <td class="incorrecto">❌</td>
+    </tr>
+    <tr>
+        <td>b</td>
+        <td>Distancia entre tu casa y la universidad (en kilómetros)</td>
+        <td>Razón</td>
+        <td>Razón</td>
+        <td class="correcto">✅</td>
+    </tr>
+    <tr>
+        <td>c</td>
+        <td>Tipo de vivienda (apartamento, casa, local)</td>
+        <td>Nominal</td>
+        <td>Nominal</td>
+        <td class="correcto">✅</td>
+    </tr>
+    <tr>
+        <td>d</td>
+        <td>Número de goles marcados por un jugador en una temporada</td>
+        <td>Razón</td>
+        <td>Razón</td>
+        <td class="correcto">✅</td>
+    </tr>
+    <tr>
+        <td>e</td>
+        <td>Nivel de dolor de un paciente: leve, moderado, intenso</td>
+        <td>Ordinal</td>
+        <td>Ordinal</td>
+        <td class="correcto">✅</td>
+    </tr>
+</table>
+
+<div class="explicacion">
+    <p><strong>Explicación - Error a):</strong> En un ranking solo importa el ORDEN (1ro, 2do, 3ro). La "distancia" entre el puesto 1 y el 2 no es la misma que entre el 5 y el 6. No hay distancia igual entre niveles, por eso es ORDINAL, no intervalo.</p>
+</div>
+
+<h2>Resumen de Errores</h2>
+<ol>
+    <li><strong>Discreta vs Continua:</strong> Recuerda — conteo = discreta, medición = continua.</li>
+    <li><strong>Ordinal vs Intervalo:</strong> Si solo hay orden pero no distancia igual entre niveles → ordinal.</li>
+</ol>
+
+</body>
+</html>

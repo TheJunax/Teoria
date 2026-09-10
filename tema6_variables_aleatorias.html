@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema 6: Variables Aleatorias | Estadística Inferencial</title>
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--light);
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5em;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 150px 30px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 1000px;
+            margin: -50px auto 50px;
+            padding: 0 30px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--light);
+        }
+        
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .content-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+        
+        /* Formula Box */
+        .formula-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-left: 5px solid var(--primary);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 0 15px 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .formula-box::before {
+            content: '📐';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+        
+        .formula-label {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .formula-content {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1.3em;
+        }
+        
+        /* Example Box */
+        .example-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .example-box::before {
+            content: '💡';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: var(--success);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+        
+        .example-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+        
+        .example-content {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+        
+        .solution-step {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        /* Data Table */
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        .data-table thead {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .data-table th {
+            padding: 18px 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+        
+        .data-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--light);
+            text-align: center;
+        }
+        
+        .data-table tbody tr {
+            transition: background 0.3s;
+        }
+        
+        .data-table tbody tr:hover {
+            background: var(--light);
+        }
+        
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .data-table .highlight-row {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        /* Concept Cards */
+        .concept-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .concept-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--primary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .concept-card h4 {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .concept-card p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        .concept-card .formula-mini {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-table thead {
+            background: var(--dark);
+            color: white;
+        }
+        
+        .comparison-table th {
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        .comparison-table tbody tr:hover {
+            background: var(--light);
+        }
+        
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid var(--warning);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .warning-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Quiz Section */
+        .quiz-section {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+        
+        .quiz-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .quiz-question {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .question-text {
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .option {
+            background: var(--light);
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: white;
+            border-color: var(--primary);
+        }
+        
+        .option.selected {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .option.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        
+        .option.incorrect {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+        
+        .quiz-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: block;
+            margin: 30px auto 0;
+        }
+        
+        .quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+        
+        .result-box {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .result-box.show {
+            display: block;
+        }
+        
+        .result-score {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .result-score.excellent {
+            color: var(--success);
+        }
+        
+        .result-score.good {
+            color: var(--warning);
+        }
+        
+        .result-score.needs-work {
+            color: var(--danger);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 40px 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .concept-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">📊 Estadística Inferencial</div>
+            <ul class="nav-links">
+                <li><a href="#definicion">Definición</a></li>
+                <li><a href="#esperado">Valor Esperado</a></li>
+                <li><a href="#varianza">Varianza</a></li>
+                <li><a href="#resumen">Resumen</a></li>
+                <li><a href="#quiz">Quiz</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">Tema 6 de 14</span>
+            <h1>Variables Aleatorias</h1>
+            <p>Convierte los resultados de un experimento en números que podemos calcular. La base de toda la estadística.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Definición -->
+        <div class="card" id="definicion">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-random"></i>
+                </div>
+                <h2 class="section-title">1. ¿Qué es una Variable Aleatoria?</h2>
+            </div>
+            
+            <p class="content-text">
+                Una <strong>variable aleatoria (X)</strong> es una función que asigna un número a cada resultado de un experimento. O sea, convierte resultados en números que podemos calcular.
+            </p>
+
+            <div class="example-box">
+                <h3 class="example-title">📌 Ejemplo: Lanzar dos monedas</h3>
+                <div class="example-content">
+                    <p><strong>Experimento:</strong> Lanzas 2 monedas y cuentas cuántas caras salen.</p>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Resultado</th>
+                                    <th>Valor de X (nº de caras)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>(C, C)</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>(C, K)</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>(K, C)</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>(K, K)</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p><strong>La variable X toma valores {0, 1, 2}</strong> — ese conjunto de valores es la variable aleatoria.</p>
+                </div>
+            </div>
+
+            <h3 style="margin: 30px 0 20px; color: var(--dark);">Tipos de variables aleatorias</h3>
+
+            <div class="concept-cards">
+                <div class="concept-card">
+                    <h4><i class="fas fa-hashtag"></i> Discreta</h4>
+                    <p>Toma valores contables (0, 1, 2, 3...). Generalmente es un conteo.</p>
+                    <p>📌 <strong>Ejemplo:</strong> Nº de clientes por hora</p>
+                    <div class="formula-mini">
+                        \[ E[X] = \sum x \cdot P(X=x) \]
+                    </div>
+                </div>
+                <div class="concept-card">
+                    <h4><i class="fas fa-chart-line"></i> Continua</h4>
+                    <p>Toma cualquier valor en un intervalo. Generalmente es una medición.</p>
+                    <p>📌 <strong>Ejemplo:</strong> Peso, estatura, tiempo</p>
+                    <div class="formula-mini">
+                        \[ E[X] = \int x \cdot f(x) \, dx \]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Valor Esperado -->
+        <div class="card" id="esperado">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h2 class="section-title">2. Valor Esperado (E[X])</h2>
+            </div>
+            
+            <p class="content-text">
+                Es el valor <strong>promedio</strong> que esperas obtener si repites el experimento muchas veces. Es la media ponderada por las probabilidades.
+            </p>
+
+            <div class="formula-box">
+                <div class="formula-label">Fórmula</div>
+                <div class="formula-content">
+                    \[ E[X] = \sum x \times P(X=x) \]
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3 class="example-title">📌 Ejemplo: Restaurante de hamburguesas</h3>
+                <div class="example-content">
+                    <p><strong>Contexto:</strong> El restaurante rastrea cuántas hamburguesas venden por hora.</p>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>x (hamburguesas/hora)</th>
+                                    <th>P(X=x)</th>
+                                    <th>x × P(x)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0.05</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0.15</td>
+                                    <td>0.15</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>0.30</td>
+                                    <td>0.60</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>0.25</td>
+                                    <td>0.75</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>0.15</td>
+                                    <td>0.60</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>0.10</td>
+                                    <td>0.50</td>
+                                </tr>
+                                <tr class="highlight-row">
+                                    <td colspan="2">SUMA</td>
+                                    <td>2.60</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <div class="formula-content">
+                            \[ E[X] = 0 + 0.15 + 0.60 + 0.75 + 0.60 + 0.50 = 2.60 \]
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box" style="margin-bottom: 0;">
+                        <h4 class="warning-title"><i class="fas fa-lightbulb"></i> Interpretación</h4>
+                        <p>En promedio venden <strong>2.6 hamburguesas por hora</strong>. No significa que siempre vendan 2 o 3, es el promedio a largo plazo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Varianza -->
+        <div class="card" id="varianza">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </div>
+                <h2 class="section-title">3. Varianza y Desviación Estándar</h2>
+            </div>
+            
+            <p class="content-text">
+                La varianza mide <strong>cuánto se dispersan</strong> los valores alrededor de la media. La desviación estándar es la raíz cuadrada de la varianza y se interpreta en las unidades originales.
+            </p>
+
+            <div class="formula-box">
+                <div class="formula-label">Fórmulas</div>
+                <div class="formula-content">
+                    \[ \text{Var}[X] = E[X^2] - (E[X])^2 \]
+                </div>
+                <div class="formula-content">
+                    \[ E[X^2] = \sum x^2 \times P(X=x) \]
+                </div>
+                <div class="formula-content">
+                    \[ \sigma = \sqrt{\text{Var}[X]} \]
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h3 class="example-title">📌 Ejemplo: Continuando con el restaurante</h3>
+                <div class="example-content">
+                    <p><strong>Contexto:</strong> Sabemos que E[X] = 2.60. Ahora calculamos E[X²].</p>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>x</th>
+                                    <th>P(x)</th>
+                                    <th>x²</th>
+                                    <th>x² × P(x)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0.05</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0.15</td>
+                                    <td>1</td>
+                                    <td>0.15</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>0.30</td>
+                                    <td>4</td>
+                                    <td>1.20</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>0.25</td>
+                                    <td>9</td>
+                                    <td>2.25</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>0.15</td>
+                                    <td>16</td>
+                                    <td>2.40</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>0.10</td>
+                                    <td>25</td>
+                                    <td>2.50</td>
+                                </tr>
+                                <tr class="highlight-row">
+                                    <td colspan="3">SUMA</td>
+                                    <td>8.50</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="solution-step">
+                        <div class="step-number">1</div>
+                        <p><strong>Calcular E[X²]:</strong> 0 + 0.15 + 1.20 + 2.25 + 2.40 + 2.50 = <strong>8.50</strong></p>
+                    </div>
+                    <div class="solution-step">
+                        <div class="step-number">2</div>
+                        <p><strong>Calcular la varianza:</strong></p>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <div class="formula-content">
+                            \[ \text{Var}[X] = 8.50 - (2.60)^2 = 8.50 - 6.76 = 1.74 \]
+                        </div>
+                    </div>
+                    
+                    <div class="solution-step">
+                        <div class="step-number">3</div>
+                        <p><strong>Calcular la desviación estándar:</strong></p>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <div class="formula-content">
+                            \[ \sigma = \sqrt{1.74} = 1.32 \]
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box" style="margin-bottom: 0;">
+                        <h4 class="warning-title"><i class="fas fa-lightbulb"></i> Interpretación</h4>
+                        <p>En promedio, la venta de hamburguesas varía <strong>±1.32</strong> de las 2.6 esperadas por hora.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen -->
+        <div class="card" id="resumen">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-list-check"></i>
+                </div>
+                <h2 class="section-title">Resumen Rápido</h2>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Fórmula</th>
+                        <th>¿Qué mide?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Valor esperado</strong></td>
+                        <td>\[ E[X] = \sum x \times P(x) \]</td>
+                        <td>El promedio esperado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Varianza</strong></td>
+                        <td>\[ E[X^2] - (E[X])^2 \]</td>
+                        <td>La dispersión al cuadrado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Desv. estándar</strong></td>
+                        <td>\[ \sqrt{\text{Var}[X]} \]</td>
+                        <td>Dispersión en unidades originales</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box" style="margin-bottom: 0;">
+                <h4 class="warning-title"><i class="fas fa-lightbulb"></i> Dato clave</h4>
+                <ul style="padding-left: 25px; margin-top: 10px;">
+                    <li>Discreta → <strong>suma</strong> (Σ)</li>
+                    <li>Continua → <strong>integral</strong> (∫)</li>
+                    <li>E[X] siempre está entre el valor mínimo y máximo de X</li>
+                    <li>La varianza nunca es negativa</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-section" id="quiz">
+            <h2 class="quiz-title">🧠 ¿Qué tanto aprendiste?</h2>
+            
+            <div class="quiz-question" data-correct="2">
+                <div class="question-header">
+                    <div class="question-number">1</div>
+                    <p class="question-text">¿Cuál es el valor esperado de X si P(X=0)=0.5 y P(X=2)=0.5?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) 0</div>
+                    <div class="option" data-option="2">B) 1</div>
+                    <div class="option" data-option="3">C) 2</div>
+                    <div class="option" data-option="4">D) 0.5</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="1">
+                <div class="question-header">
+                    <div class="question-number">2</div>
+                    <p class="question-text">¿Qué mide la varianza?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) La dispersión de los valores</div>
+                    <div class="option" data-option="2">B) El valor promedio</div>
+                    <div class="option" data-option="3">C) El valor máximo</div>
+                    <div class="option" data-option="4">D) La probabilidad total</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="4">
+                <div class="question-header">
+                    <div class="question-number">3</div>
+                    <p class="question-text">Si Var[X] = 9, ¿cuál es la desviación estándar?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) 9</div>
+                    <div class="option" data-option="2">B) 81</div>
+                    <div class="option" data-option="3">C) 4.5</div>
+                    <div class="option" data-option="4">D) 3</div>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz()">
+                <i class="fas fa-check-circle"></i> Verificar respuestas
+            </button>
+
+            <div class="result-box" id="result-box">
+                <div class="result-score" id="result-score">0/3</div>
+                <p id="result-message">¡Sigue practicando!</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>📚 Estadística Inferencial</h3>
+            <p>Tema 6: Variables Aleatorias</p>
+            <div class="footer-links">
+                <a href="#definicion"><i class="fas fa-arrow-up"></i> Volver arriba</a>
+                <a href="#"><i class="fas fa-book"></i> Otros temas</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Ayuda</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Quiz functionality
+        function checkQuiz() {
+            const questions = document.querySelectorAll('.quiz-question');
+            let score = 0;
+            const total = questions.length;
+            
+            questions.forEach(question => {
+                const correct = question.dataset.correct;
+                const options = question.querySelectorAll('.option');
+                
+                options.forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                    option.style.pointerEvents = 'none';
+                    
+                    if (option.dataset.option === correct) {
+                        option.classList.add('correct');
+                    }
+                    
+                    if (option.classList.contains('selected') && option.dataset.option !== correct) {
+                        option.classList.add('incorrect');
+                    } else if (option.classList.contains('selected') && option.dataset.option === correct) {
+                        score++;
+                    }
+                });
+            });
+            
+            const resultBox = document.getElementById('result-box');
+            const resultScore = document.getElementById('result-score');
+            const resultMessage = document.getElementById('result-message');
+            
+            resultScore.textContent = `${score}/${total}`;
+            
+            if (score === total) {
+                resultScore.className = 'result-score excellent';
+                resultMessage.textContent = '¡Excelente! Dominas las variables aleatorias 🎉';
+            } else if (score >= 2) {
+                resultScore.className = 'result-score good';
+                resultMessage.textContent = '¡Bien! Pero revisa los que fallaste 📚';
+            } else {
+                resultScore.className = 'result-score needs-work';
+                resultMessage.textContent = 'Necesitas repasar. ¡No te preocupes, intenta de nuevo! 💪';
+            }
+            
+            resultBox.classList.add('show');
+        }
+
+        // Option selection
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                question.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

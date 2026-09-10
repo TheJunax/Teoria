@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Rápida: Fundamentos de Estadística</title>
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--light);
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.3em;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95em;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-1);
+            color: white;
+            padding: 140px 30px 80px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 800;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 1100px;
+            margin: -40px auto 50px;
+            padding: 0 30px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Topic Cards */
+        .topic-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .topic-header {
+            padding: 30px 35px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .topic-header.gradient-1 { background: var(--gradient-1); }
+        .topic-header.gradient-2 { background: var(--gradient-2); }
+        .topic-header.gradient-3 { background: var(--gradient-3); }
+        .topic-header.gradient-4 { background: var(--gradient-4); }
+        
+        .topic-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+        }
+        
+        .topic-title {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        
+        .topic-subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        
+        .topic-content {
+            padding: 35px;
+        }
+        
+        /* Key Concepts */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .concept-box {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .concept-box h4 {
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .concept-box p {
+            color: var(--gray);
+            font-size: 0.95em;
+        }
+        
+        /* Formula Highlight */
+        .formula-highlight {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+            border: 2px solid var(--primary);
+        }
+        
+        .formula-highlight .label {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .formula-highlight .formula {
+            font-size: 1.3em;
+            padding: 10px 0;
+        }
+        
+        /* Example Mini */
+        .example-mini {
+            background: #ecfdf5;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .example-mini h5 {
+            color: var(--success);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .example-mini p {
+            font-size: 0.95em;
+        }
+        
+        /* Comparison Table */
+        .table-container {
+            overflow-x: auto;
+            margin: 25px 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        .comparison-table th {
+            background: var(--dark);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        .comparison-table tbody tr:hover {
+            background: var(--light);
+        }
+        
+        /* Quick Tip */
+        .quick-tip {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .quick-tip .icon {
+            font-size: 1.5em;
+        }
+        
+        .quick-tip .content h5 {
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        
+        .quick-tip .content p {
+            color: #78350f;
+            font-size: 0.95em;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 40px 30px;
+            margin-top: 60px;
+        }
+        
+        .footer h3 {
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            opacity: 0.7;
+        }
+        
+        .progress-bar {
+            width: 300px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 10px;
+            width: 29%;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">📊 Guía Rápida</div>
+            <ul class="nav-links">
+                <li><a href="#tema1">Fundamentos</a></li>
+                <li><a href="#tema2">Conjuntos</a></li>
+                <li><a href="#tema3">Funciones</a></li>
+                <li><a href="#tema4">Combinatoria</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Guía Rápida de Estadística</h1>
+        <p>Lo más importante de los primeros 4 temas. Tu hoja de ruta para repasar rápido antes de un examen.</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Temas cubiertos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Conceptos clave</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Fórmulas esenciales</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- TEMA 1: FUNDAMENTOS -->
+        <div class="topic-card" id="tema1">
+            <div class="topic-header gradient-1">
+                <div class="topic-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div>
+                    <h2 class="topic-title">Tema 1: Fundamentos</h2>
+                    <p class="topic-subtitle">Población, muestra, variables y escalas</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                
+                <div class="concept-grid">
+                    <div class="concept-box">
+                        <h4><i class="fas fa-users"></i> Población vs Muestra</h4>
+                        <p><strong>Población:</strong> Todos los elementos que nos interesan (ej: todos los estudiantes de Colombia)</p>
+                        <p><strong>Muestra:</strong> Un subconjunto de la población (ej: 500 estudiantes encuestados)</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4><i class="fas fa-tag"></i> Variables Categóricas</h4>
+                        <p><strong>Nominal:</strong> Sin orden (género, color de ojos)</p>
+                        <p><strong>Ordinal:</strong> Con orden (nivel de dolor, ranking)</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4><i class="fas fa-hashtag"></i> Variables Numéricas</h4>
+                        <p><strong>Discreta:</strong> Se cuentan (nº de hijos, nº de autos)</p>
+                        <p><strong>Continua:</strong> Se miden (estatura, peso, tiempo)</p>
+                    </div>
+                </div>
+                
+                <div class="quick-tip">
+                    <div class="icon">💡</div>
+                    <div class="content">
+                        <h5>Truco para recordar</h5>
+                        <p><strong>Discreta:</strong> ¿Se puede contar? 1, 2, 3... → Discreta<br>
+                        <strong>Continua:</strong> ¿Se puede medir con decimales con sentido? → Continua</p>
+                    </div>
+                </div>
+                
+                <div class="example-mini">
+                    <h5><i class="fas fa-lightbulb"></i> Ejemplo práctico</h5>
+                    <p>Una encuesta pide: género (nominal), nivel de estudios (ordinal), edad (continua), nº de hermanos (discreta), estatura (continua).</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- TEMA 2: CONJUNTOS -->
+        <div class="topic-card" id="tema2">
+            <div class="topic-header gradient-2">
+                <div class="topic-icon">
+                    <i class="fas fa-object-group"></i>
+                </div>
+                <div>
+                    <h2 class="topic-title">Tema 2: Conjuntos</h2>
+                    <p class="topic-subtitle">Operaciones y propiedades fundamentales</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                
+                <div class="formula-highlight">
+                    <div class="label">Operaciones principales</div>
+                    <div class="formula">
+                        \[ A \cup B = \{x : x \in A \text{ o } x \in B\} \]
+                    </div>
+                    <div class="formula">
+                        \[ A \cap B = \{x : x \in A \text{ y } x \in B\} \]
+                    </div>
+                    <div class="formula">
+                        \[ A' = \{x \in U : x \notin A\} \]
+                    </div>
+                    <div class="formula">
+                        \[ A - B = \{x : x \in A \text{ y } x \notin B\} \]
+                    </div>
+                </div>
+                
+                <div class="concept-grid">
+                    <div class="concept-box">
+                        <h4><i class="fas fa-compress-arrows-alt"></i> Unión (∪)</h4>
+                        <p>Todo lo que está en A, en B, o en ambos. "A o B"</p>
+                        <p><strong>Ejemplo:</strong> {1,2} ∪ {2,3} = {1,2,3}</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4><i class="fas fa-compress"></i> Intersección (∩)</h4>
+                        <p>Solo lo que está en A y en B a la vez. "A y B"</p>
+                        <p><strong>Ejemplo:</strong> {1,2} ∩ {2,3} = {2}</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4><i class="fas fa-minus-circle"></i> Diferencia (-)</h4>
+                        <p>Lo que está en A pero NO en B.</p>
+                        <p><strong>Ejemplo:</strong> {1,2} - {2,3} = {1}</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4><i class="fas fa-exchange-alt"></i> Complemento (A')</h4>
+                        <p>Todo lo que NO está en A (dentro del conjunto universal).</p>
+                    </div>
+                </div>
+                
+                <div class="quick-tip">
+                    <div class="icon">⚠️</div>
+                    <div class="content">
+                        <h5>Error común</h5>
+                        <p>El conjunto vacío ∅ SIEMPRE es subconjunto de cualquier conjunto. Y cualquier conjunto es subconjunto de sí mismo.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- TEMA 3: FUNCIONES -->
+        <div class="topic-card" id="tema3">
+            <div class="topic-header gradient-3">
+                <div class="topic-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div>
+                    <h2 class="topic-title">Tema 3: Funciones</h2>
+                    <p class="topic-subtitle">Funciones de probabilidad y distribución</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                
+                <div class="concept-grid">
+                    <div class="concept-box">
+                        <h4><i class="fas fa-table"></i> Función de Masa (fmp)</h4>
+                        <p>Para variables <strong>discretas</strong>. Asigna probabilidad a cada valor.</p>
+                        <p><strong>Reglas:</strong> 0 ≤ P(x) ≤ 1 y ΣP(x) = 1</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4><i class="fas fa-chart-area"></i> Función de Densidad (fdp)</h4>
+                        <p>Para variables <strong>continuas</strong>. El área bajo la curva = 1.</p>
+                        <p><strong>P(x = a) = 0</strong> siempre en continuas</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4><i class="fas fa-layer-group"></i> Función Acumulada (CDF)</h4>
+                        <p>F(x) = P(X ≤ x). Acumula probabilidades.</p>
+                        <p><strong>Siempre crece</strong> de 0 a 1</p>
+                    </div>
+                </div>
+                
+                <div class="formula-highlight">
+                    <div class="label">Propiedades clave</div>
+                    <div class="formula">
+                        \[ \sum_{x} P(X=x) = 1 \quad \text{(discretas)} \]
+                    </div>
+                    <div class="formula">
+                        \[ \int_{-\infty}^{\infty} f(x) \, dx = 1 \quad \text{(continuas)} \]
+                    </div>
+                    <div class="formula">
+                        \[ P(a < X < b) = \int_{a}^{b} f(x) \, dx \]
+                    </div>
+                </div>
+                
+                <div class="example-mini">
+                    <h5><i class="fas fa-lightbulb"></i> Ejemplo con dado</h5>
+                    <p>F(x) = P(X ≤ x). Si F(3) = 0.5, significa que hay 50% de probabilidad de sacar 3 o menos.</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- TEMA 4: ANÁLISIS COMBINATORIO -->
+        <div class="topic-card" id="tema4">
+            <div class="topic-header gradient-4">
+                <div class="topic-icon">
+                    <i class="fas fa-sort-amount-up"></i>
+                </div>
+                <div>
+                    <h2 class="topic-title">Tema 4: Análisis Combinatorio</h2>
+                    <p class="topic-subtitle">Permutaciones, combinaciones y factorial</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                
+                <div class="formula-highlight">
+                    <div class="label">Fórmulas esenciales</div>
+                    <div class="formula">
+                        \[ n! = n \times (n-1) \times (n-2) \times ... \times 1 \]
+                    </div>
+                    <div class="formula">
+                        \[ P(n,r) = \frac{n!}{(n-r)!} \quad \text{(orden importa)} \]
+                    </div>
+                    <div class="formula">
+                        \[ C(n,r) = \frac{n!}{r!(n-r)!} \quad \text{(orden no importa)} \]
+                    </div>
+                    <div class="formula">
+                        \[ P = n^r \quad \text{(con repetición)} \]
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Situación</th>
+                                <th>Tipo</th>
+                                <th>Ejemplo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ordenar TODOS los elementos</td>
+                                <td>Permutación simple: n!</td>
+                                <td>Ordenar 4 libros</td>
+                            </tr>
+                            <tr>
+                                <td>Seleccionar y ordenar r de n</td>
+                                <td>Permutación: P(n,r)</td>
+                                <td>1er, 2do, 3er puesto</td>
+                            </tr>
+                            <tr>
+                                <td>Seleccionar r de n sin orden</td>
+                                <td>Combinación: C(n,r)</td>
+                                <td>Elegir equipo de 3</td>
+                            </tr>
+                            <tr>
+                                <td>Repetir elementos</td>
+                                <td>P = n^r</td>
+                                <td>Contraseñas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="quick-tip">
+                    <div class="icon">💡</div>
+                    <div class="content">
+                        <h5>Truco para recordar</h5>
+                        <p><strong>¿El orden importa?</strong> → Permutación<br>
+                        <strong>¿El orden NO importa?</strong> → Combinación<br>
+                        <strong>¿Se puede repetir?</strong> → n^r</p>
+                    </div>
+                </div>
+                
+                <div class="example-mini">
+                    <h5><i class="fas fa-calculator"></i> Ejemplos rápidos</h5>
+                    <p>4! = 24 &nbsp;|&nbsp; 5! = 120 &nbsp;|&nbsp; P(5,3) = 60 &nbsp;|&nbsp; C(5,2) = 10</p>
+                </div>
+                
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3>📚 Estadística Inferencial - Guía de Repaso</h3>
+        <p>Temas 1-4: Fundamentos, Conjuntos, Funciones y Análisis Combinatorio</p>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p style="font-size: 0.9em;">Progreso del curso: 4/14 temas (29%)</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

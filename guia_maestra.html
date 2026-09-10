@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Maestra: Estadística Inferencial (14 Temas)</title>
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-6: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            --gradient-7: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--light);
+        }
+        
+        /* ============ NAVBAR ============ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 12px 0;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-logo {
+            font-size: 1.3em;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            max-width: 900px;
+        }
+        
+        .nav-links::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .nav-links::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* ============ HERO ============ */
+        .hero {
+            background: var(--gradient-1);
+            color: white;
+            padding: 140px 30px 90px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.08" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.2em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.25em;
+            opacity: 0.95;
+            margin-bottom: 35px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px 35px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 800;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
+        
+        /* ============ SECTION NAV ============ */
+        .section-nav {
+            max-width: 1400px;
+            margin: -35px auto 40px;
+            padding: 0 25px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .section-nav-inner {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .section-nav-inner a {
+            text-decoration: none;
+            color: var(--dark);
+            background: var(--light);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .section-nav-inner a:hover {
+            background: var(--gradient-1);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .section-nav-inner a i {
+            font-size: 1.1em;
+        }
+        
+        /* ============ MAIN ============ */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto 50px;
+            padding: 0 25px;
+        }
+        
+        /* Topic Card */
+        .topic-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+            overflow: hidden;
+        }
+        
+        .topic-header {
+            padding: 25px 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .topic-header.g1 { background: var(--gradient-1); }
+        .topic-header.g2 { background: var(--gradient-2); }
+        .topic-header.g3 { background: var(--gradient-3); }
+        .topic-header.g4 { background: var(--gradient-4); }
+        .topic-header.g5 { background: var(--gradient-5); }
+        .topic-header.g6 { background: var(--gradient-6); }
+        .topic-header.g7 { background: var(--gradient-7); }
+        
+        .topic-header.g7 .topic-title, 
+        .topic-header.g7 .topic-subtitle {
+            color: #1e293b;
+        }
+        
+        .topic-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            flex-shrink: 0;
+        }
+        
+        .topic-title {
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+        
+        .topic-subtitle {
+            font-size: 0.95em;
+            opacity: 0.92;
+        }
+        
+        .topic-content {
+            padding: 30px;
+        }
+        
+        /* Text */
+        .content-text {
+            font-size: 1.05em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        /* Grid of mini-concepts */
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .mini-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .mini-card h4 {
+            color: var(--primary);
+            font-size: 1.05em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mini-card p {
+            color: var(--gray);
+            font-size: 0.92em;
+        }
+        
+        /* Formula Box */
+        .formula-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-left: 5px solid var(--primary);
+            padding: 22px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .formula-box .formula-label {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        
+        .formula-box .formula-content {
+            text-align: center;
+            padding: 12px 0;
+            font-size: 1.15em;
+        }
+        
+        /* Example Box */
+        .example-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .example-box h4 {
+            color: var(--success);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05em;
+        }
+        
+        .example-box p, .example-box li {
+            font-size: 0.95em;
+        }
+        
+        .example-box ul, .example-box ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        
+        /* Tables */
+        .table-scroll {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+        
+        .data-table thead {
+            background: var(--dark);
+            color: white;
+        }
+        
+        .data-table th {
+            padding: 14px 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--light);
+            text-align: center;
+            font-size: 0.92em;
+        }
+        
+        .data-table tbody tr:hover {
+            background: var(--light);
+        }
+        
+        .data-table .hl {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        /* Tip & Warning boxes */
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid var(--warning);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+        
+        .tip-box h4 {
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        
+        .tip-box p, .tip-box li {
+            color: #78350f;
+            font-size: 0.93em;
+        }
+        
+        .danger-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 2px solid var(--danger);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+        
+        .danger-box h4 {
+            color: #991b1b;
+            margin-bottom: 8px;
+        }
+        
+        .danger-box p, .danger-box li {
+            color: #7f1d1d;
+            font-size: 0.93em;
+        }
+        
+        /* Sub-title */
+        h3.sub {
+            font-size: 1.25em;
+            color: var(--dark);
+            margin: 25px 0 12px;
+            padding-left: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        /* ============ QUIZ ============ */
+        .quiz-section {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+        
+        .quiz-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .quiz-question {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            flex-shrink: 0;
+        }
+        
+        .question-text {
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .option {
+            background: var(--light);
+            padding: 13px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: white;
+            border-color: var(--primary);
+        }
+        
+        .option.selected {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .option.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        
+        .option.incorrect {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+        
+        .quiz-btn {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: block;
+            margin: 30px auto 0;
+        }
+        
+        .quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        .result-box {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .result-box.show {
+            display: block;
+        }
+        
+        .result-score {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .result-score.excellent { color: var(--success); }
+        .result-score.good { color: var(--warning); }
+        .result-score.needs-work { color: var(--danger); }
+        
+        /* ============ CHEAT SHEET ============ */
+        .cheat-sheet {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+            overflow: hidden;
+        }
+        
+        .cheat-sheet .topic-header {
+            background: var(--dark);
+        }
+        
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .cheat-item {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .cheat-item h4 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+        
+        .cheat-item table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        .cheat-item td {
+            padding: 8px 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .cheat-item td:first-child {
+            font-weight: 600;
+        }
+        
+        .cheat-item tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 50px 30px;
+        }
+        
+        .footer h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            opacity: 0.7;
+            margin-bottom: 25px;
+        }
+        
+        .footer-progress {
+            width: 400px;
+            max-width: 90%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            margin: 0 auto 10px;
+            overflow: hidden;
+        }
+        
+        .footer-progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 10px;
+            width: 100%;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 2.2em; }
+            .nav-links { display: none; }
+            .hero-stats { gap: 15px; }
+            .stat-item { padding: 15px 20px; }
+            .stat-number { font-size: 1.8em; }
+            .topic-header { flex-direction: column; text-align: center; }
+            .topic-content { padding: 20px; }
+            .quiz-section { padding: 20px; }
+        }
+        
+        @media print {
+            .navbar, .section-nav, .quiz-section, .footer, .quiz-btn { display: none; }
+            .topic-card, .cheat-sheet { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+            body { background: white; }
+            .hero { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">📊 Estadística Inferencial</div>
+            <ul class="nav-links">
+                <li><a href="#tema1">1. Fund.</a></li>
+                <li><a href="#tema2">2. Conj.</a></li>
+                <li><a href="#tema3">3. Func.</a></li>
+                <li><a href="#tema4">4. Combin.</a></li>
+                <li><a href="#tema5">5. Prob.</a></li>
+                <li><a href="#tema6">6. V.A.</a></li>
+                <li><a href="#tema7">7. Distrib.</a></li>
+                <li><a href="#tema8">8. Muestral</a></li>
+                <li><a href="#tema9">9. Inferen.</a></li>
+                <li><a href="#tema10">10. TLC</a></li>
+                <li><a href="#tema11">11. Muestreo</a></li>
+                <li><a href="#tema12">12. Hipótesis</a></li>
+                <li><a href="#tema13">13. Param.</a></li>
+                <li><a href="#tema14">14. No Param.</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🎓 Guía Maestra de Estadística Inferencial</h1>
+            <p>Los 14 temas del curso en una sola página. Perfecta para repasar, estudiar para exámenes o consultar rápido.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">14</div>
+                    <div class="stat-label">Temas cubiertos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">Conceptos clave</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Fórmulas esenciales</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Ejemplos numéricos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SECTION NAV ================= -->
+    <div class="section-nav">
+        <div class="section-nav-inner">
+            <a href="#tema1"><i class="fas fa-book-open"></i> Fundamentos</a>
+            <a href="#tema2"><i class="fas fa-object-group"></i> Conjuntos</a>
+            <a href="#tema3"><i class="fas fa-chart-line"></i> Funciones</a>
+            <a href="#tema4"><i class="fas fa-sort-amount-up"></i> Combinatoria</a>
+            <a href="#tema5"><i class="fas fa-dice"></i> Probabilidad</a>
+            <a href="#tema6"><i class="fas fa-random"></i> Variables Aleat.</a>
+            <a href="#tema7"><i class="fas fa-bell"></i> Distribuciones</a>
+            <a href="#tema8"><i class="fas fa-th-large"></i> Muestrales</a>
+            <a href="#tema9"><i class="fas fa-bullseye"></i> Inferencial</a>
+            <a href="#tema10"><i class="fas fa-infinity"></i> LGN / TLC</a>
+            <a href="#tema11"><i class="fas fa-filter"></i> Muestreo</a>
+            <a href="#tema12"><i class="fas fa-gavel"></i> Hipótesis</a>
+            <a href="#tema13"><i class="fas fa-vial"></i> Paramétricas</a>
+            <a href="#tema14"><i class="fas fa-shield-alt"></i> No Paramétricas</a>
+            <a href="#cheatsheet"><i class="fas fa-bolt"></i> Cheat Sheet</a>
+            <a href="#quiz"><i class="fas fa-brain"></i> Quiz Final</a>
+        </div>
+    </div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-content">
+
+        <!-- ============ TEMA 1: FUNDAMENTOS ============ -->
+        <div class="topic-card" id="tema1">
+            <div class="topic-header g1">
+                <div class="topic-icon"><i class="fas fa-book-open"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 1: Fundamentos</h2>
+                    <p class="topic-subtitle">Población, muestra, variables y escalas de medición</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-users"></i> Población vs Muestra</h4>
+                        <p><strong>Población:</strong> TODOS los elementos de interés.<br>
+                        <strong>Muestra:</strong> Un subconjunto representativo de la población.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-hashtag"></i> Variable Cuantitativa</h4>
+                        <p><strong>Discreta:</strong> se cuenta (nº de hijos, nº de autos)<br>
+                        <strong>Continua:</strong> se mide (estatura, peso, temperatura)</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-tag"></i> Variable Cualitativa</h4>
+                        <p><strong>Nominal:</strong> sin orden (género, color)<br>
+                        <strong>Ordinal:</strong> con orden pero sin distancia igual (ranking, nivel de dolor)</p>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Truco</h4>
+                    <p>¿Se puede contar? → Discreta. ¿Se puede medir con decimales que tiene sentido? → Continua. ¿Solo hay orden sin distancia igual? → Ordinal. ¿Ni orden hay? → Nominal.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 2: CONJUNTOS ============ -->
+        <div class="topic-card" id="tema2">
+            <div class="topic-header g2">
+                <div class="topic-icon"><i class="fas fa-object-group"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 2: Conjuntos</h2>
+                    <p class="topic-subtitle">Operaciones fundamentales</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="formula-box">
+                    <div class="formula-label">Operaciones</div>
+                    <div class="formula-content">
+                        \[ A \cup B \: \text{(unión: en A o en B)} \quad A \cap B \: \text{(intersección: en A y B)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ A' \: \text{(complemento: fuera de A)} \quad A - B \: \text{(diferencia: en A, no en B)} \]
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo real</h4>
+                    <p>A = {1, 2, 3} y B = {3, 4, 5}:</p>
+                    <ul>
+                        <li>A ∪ B = {1, 2, 3, 4, 5}</li>
+                        <li>A ∩ B = {3}</li>
+                        <li>A - B = {1, 2}</li>
+                    </ul>
+                </div>
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Error común</h4>
+                    <p>El conjunto vacío ∅ SIEMPRE es subconjunto de cualquier conjunto. Un conjunto es subconjunto de sí mismo. Las operaciones se calculan paso a paso (primero paréntesis), no se responden con nombres de propiedades.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 3: FUNCIONES ============ -->
+        <div class="topic-card" id="tema3">
+            <div class="topic-header g3">
+                <div class="topic-icon"><i class="fas fa-chart-line"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 3: Funciones de Probabilidad</h2>
+                    <p class="topic-subtitle">fmp, fdp y función acumulada</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-table"></i> Masa (fmp)</h4>
+                        <p>Variables <strong>discretas</strong>.<br>0 ≤ P(x) ≤ 1 y Σ P(x) = 1</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-chart-area"></i> Densidad (fdp)</h4>
+                        <p>Variables <strong>continuas</strong>.<br>Área total = 1. P(X = a) = 0</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-layer-group"></i> Acumulada (CDF)</h4>
+                        <p>F(x) = P(X ≤ x).<br>Siempre crece de 0 a 1.</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Propiedades clave</div>
+                    <div class="formula-content">
+                        \[ \sum P(X=x) = 1 \quad \text{discreta} \qquad \int f(x)\,dx = 1 \quad \text{continua} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ P(a < X < b) = \int_a^b f(x) \, dx \]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 4: COMBINATORIA ============ -->
+        <div class="topic-card" id="tema4">
+            <div class="topic-header g4">
+                <div class="topic-icon"><i class="fas fa-sort-amount-up"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 4: Análisis Combinatorio</h2>
+                    <p class="topic-subtitle">Permutaciones y combinaciones</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="formula-box">
+                    <div class="formula-label">Fórmulas esenciales</div>
+                    <div class="formula-content">
+                        \[ n! = n \times (n-1) \times \dots \times 1 \]
+                    </div>
+                    <div class="formula-content">
+                        \[ P(n,r) = \frac{n!}{(n-r)!} \quad \text{(orden importa)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ C(n,r) = \frac{n!}{r!(n-r)!} \quad \text{(orden no importa)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ P = n^r \quad \text{(con repetición)} \]
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Situación</th><th>Tipo</th><th>Ejemplo</th><th>Resultado</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Ordenar todos</td><td>n!</td><td>4 libros</td><td>4! = 24</td></tr>
+                            <tr><td>Seleccionar y ordenar r de n</td><td>P(n,r)</td><td>P(5,3)</td><td>60</td></tr>
+                            <tr><td>Seleccionar sin orden</td><td>C(n,r)</td><td>C(5,2)</td><td>10</td></tr>
+                            <tr><td>Repetir elementos</td><td>n^r</td><td>3⁴ contraseñas</td><td>81</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Truco</h4>
+                    <p>¿Orden importa? → Permutación. ¿Orden NO importa? → Combinación. ¿Se repite? → n^r.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 5: PROBABILIDAD ============ -->
+        <div class="topic-card" id="tema5">
+            <div class="topic-header g5">
+                <div class="topic-icon"><i class="fas fa-dice"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 5: Probabilidad</h2>
+                    <p class="topic-subtitle">Reglas de suma, multiplicación, condicional y Bayes</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="formula-box">
+                    <div class="formula-label">Reglas principales</div>
+                    <div class="formula-content">
+                        \[ P(A \cup B) = P(A) + P(B) \quad \text{(excluyentes)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ P(A \cup B) = P(A) + P(B) - P(A \cap B) \quad \text{(general)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ P(A \cap B) = P(A) \times P(B) \quad \text{(independientes)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ P(A|B) = \frac{P(A \cap B)}{P(B)} \quad \text{(condicional)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)} \quad \text{(Bayes)} \]
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4><i class="fas fa-heartbeat"></i> Ejemplo sorprendente: Prueba médica</h4>
+                    <ul>
+                        <li>Enfermedad: 1% de la población → P(Enf) = 0.01</li>
+                        <li>Detecta 95% de enfermos → P(+|Enf) = 0.95</li>
+                        <li>Falsos positivos: 5% → P(+|No Enf) = 0.05</li>
+                    </ul>
+                    <p style="margin-top: 10px;">P(Enf|+) = (0.95 × 0.01) / (0.95×0.01 + 0.05×0.99) = 0.161</p>
+                    <p><strong>Solo 16.1% de ser enfermo si das positivo</strong> — aunque la prueba parezca buena.</p>
+                </div>
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Errores comunes</h4>
+                    <p>Una probabilidad NUNCA es mayor a 1. En la suma general SIEMPRE resta la intersección. Con dados distinguibles (1,6) ≠ (6,1).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 6: VARIABLES ALEATORIAS ============ -->
+        <div class="topic-card" id="tema6">
+            <div class="topic-header g6">
+                <div class="topic-icon"><i class="fas fa-random"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 6: Variables Aleatorias</h2>
+                    <p class="topic-subtitle">Valor esperado, varianza y desviación estándar</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="formula-box">
+                    <div class="formula-label">Fórmulas</div>
+                    <div class="formula-content">
+                        \[ E[X] = \sum x \cdot P(X=x) \]
+                    </div>
+                    <div class="formula-content">
+                        \[ \text{Var}[X] = E[X^2] - (E[X])^2 \qquad \sigma = \sqrt{\text{Var}[X]} \]
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>x</th><th>P(x)</th><th>x·P(x)</th><th>x²</th><th>x²·P(x)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>0</td><td>0.05</td><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>1</td><td>0.15</td><td>0.15</td><td>1</td><td>0.15</td></tr>
+                            <tr><td>2</td><td>0.30</td><td>0.60</td><td>4</td><td>1.20</td></tr>
+                            <tr><td>3</td><td>0.25</td><td>0.75</td><td>9</td><td>2.25</td></tr>
+                            <tr><td>4</td><td>0.15</td><td>0.60</td><td>16</td><td>2.40</td></tr>
+                            <tr><td>5</td><td>0.10</td><td>0.50</td><td>25</td><td>2.50</td></tr>
+                            <tr class="hl"><td colspan="2">E[X] = 2.60</td><td colspan="3">E[X²] = 8.50 → Var = 8.50 - 6.76 = 1.74, σ = 1.32</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="content-text">Ejemplo: un restaurante vende en promedio <strong>2.6 hamburguesas/hora</strong> con desviación de ±1.32.</p>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 7: DISTRIBUCIONES ============ -->
+        <div class="topic-card" id="tema7">
+            <div class="topic-header g7">
+                <div class="topic-icon"><i class="fas fa-bell"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 7: Distribuciones de Probabilidad</h2>
+                    <p class="topic-subtitle">Binomial, Normal y Poisson</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-coins"></i> Binomial</h4>
+                        <p>n ensayos independientes, éxito/fracaso. E[X] = np, Var = np(1-p)</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-chart-bell-curve"></i> Normal</h4>
+                        <p>Datos continuos simétricos. Media μ, desviación σ. Campana.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-clock"></i> Poisson</h4>
+                        <p>Eventos raros por unidad de tiempo. Parámetro λ (promedio).</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Fórmulas y ejemplo</div>
+                    <div class="formula-content">
+                        \[ \text{Binomial: } P(X=k) = C(n,k)\, p^k (1-p)^{n-k} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ \text{Normal: } z = \frac{x - \mu}{\sigma} \qquad \text{Poisson: } P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!} \]
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplos rápidos</h4>
+                    <ul>
+                        <li>70% piden postre, 5 clientes → P(X=3) = 10 × 0.343 × 0.09 = <strong>0.309</strong></li>
+                        <li>Estatura μ=170, σ=7 → P(X < 177): z = 1.00 → <strong>84.13%</strong></li>
+                        <li>λ=4 llamadas/hora → P(X=2) = 16 × 0.0183 / 2 = <strong>0.147</strong></li>
+                    </ul>
+                </div>
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Regla empírica (Normal)</h4>
+                    <p>μ ± 1σ contiene 68% · μ ± 2σ contiene 95% · μ ± 3σ contiene 99.7%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 8: DISTRIBUCIONES MUESTRALES ============ -->
+        <div class="topic-card" id="tema8">
+            <div class="topic-header g1">
+                <div class="topic-icon"><i class="fas fa-th-large"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 8: Distribuciones Muestrales</h2>
+                    <p class="topic-subtitle">Distribución de la media muestral y error estándar</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="formula-box">
+                    <div class="formula-label">Error estándar</div>
+                    <div class="formula-content">
+                        \[ SE = \frac{\sigma}{\sqrt{n}} \qquad \text{(con σ desconocida: } SE = \frac{s}{\sqrt{n}}\text{)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ z = \frac{\bar{x} - \mu}{SE} \]
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>n</th><th>√n</th><th>SE (σ=7)</th><th>Observación</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>1</td><td>7.00</td><td>Error enorme</td></tr>
+                            <tr><td>4</td><td>2</td><td>3.50</td><td>Baja a la mitad</td></tr>
+                            <tr><td>16</td><td>4</td><td>1.75</td><td>Baja otra vez</td></tr>
+                            <tr><td>100</td><td>10</td><td>0.70</td><td>Muy preciso</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Clave</h4>
+                    <p>Para reducir el error a la mitad necesitas CUADRUPLICAR la muestra: n=4 → SE 3.5, n=16 → SE 1.75.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 9: INFERENCIAL ============ -->
+        <div class="topic-card" id="tema9">
+            <div class="topic-header g2">
+                <div class="topic-icon"><i class="fas fa-bullseye"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 9: Estadística Inferencial</h2>
+                    <p class="topic-subtitle">Intervalos de confianza</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="formula-box">
+                    <div class="formula-label">Intervalo de confianza</div>
+                    <div class="formula-content">
+                        \[ IC = \bar{x} \pm z \times \frac{\sigma}{\sqrt{n}} \]
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Confianza</th><th>z</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>90%</td><td>1.645</td></tr>
+                            <tr class="hl"><td>95%</td><td>1.96</td></tr>
+                            <tr><td>99%</td><td>2.576</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="example-box">
+                    <h4><i class="fas fa-shopping-cart"></i> Ejemplo: gasto de clientes</h4>
+                    <p>n=100, x̄=$85,000, σ=$20,000 → SE = 2,000 → margen = 1.96 × 2,000 = 3,920</p>
+                    <p><strong>IC 95% = [$81,080, $88,920]</strong></p>
+                    <p style="margin-top:10px;">Interpretación: si repites esto muchas veces, el 95% de los intervalos construidos así contendrán la media real.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 10: LGN / TLC ============ -->
+        <div class="topic-card" id="tema10">
+            <div class="topic-header g3">
+                <div class="topic-icon"><i class="fas fa-infinity"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 10: LGN y Teorema del Límite Central</h2>
+                    <p class="topic-subtitle">Por qué la normal aparece en todas partes</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-chart-line"></i> Ley de Grandes Números</h4>
+                        <p>Con más ensayos, el promedio de los resultados converge al valor esperado.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-mountain"></i> Teorema del Límite Central</h4>
+                        <p>La media muestral se distribuye NORMAL sin importar la forma de la distribución original, cuando n ≥ 30.</p>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Lanzamientos</th><th>Proporción de caras</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>10</td><td>0.70</td></tr>
+                            <tr><td>100</td><td>0.46</td></tr>
+                            <tr><td>1,000</td><td>0.503</td></tr>
+                            <tr class="hl"><td>10,000</td><td>0.5012 → converge a 0.5</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Falacia del jugador</h4>
+                    <p>Si salió cara 5 veces seguidas, NO "toca" que salga cruz. Cada lanzamiento es independiente. Solo con MUCHAS repeticiones el promedio converge.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 11: MUESTREO ============ -->
+        <div class="topic-card" id="tema11">
+            <div class="topic-header g4">
+                <div class="topic-icon"><i class="fas fa-filter"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 11: Muestreo</h2>
+                    <p class="topic-subtitle">Tipos de muestreo y sesgo</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Método</th><th>¿Cómo funciona?</th><th>Ejemplo</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Aleatorio simple</strong></td><td>Todos con igual probabilidad</td><td>Generador de números aleatorios</td></tr>
+                            <tr><td><strong>Estratificado</strong></td><td>Dividir en grupos + muestra de cada uno</td><td>60% adultos, 25% jóvenes, 15% mayores</td></tr>
+                            <tr><td><strong>Conglomerados</strong></td><td>Elegir grupos naturales y encuestar todos</td><td>5 colegios al azar, todos sus estudiantes</td></tr>
+                            <tr><td><strong>Sistemático</strong></td><td>Uno al azar + intervalos regulares</td><td>Cliente 7, 17, 27, 37...</td></tr>
+                            <tr><td><strong>Conveniencia</strong></td><td>Fácil pero sesgado</td><td>Encuestar amigos ❌</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="danger-box">
+                    <h4><i class="fas fa-history"></i> Caso histórico: Literary Digest 1936</h4>
+                    <p>Encuestaron a 2.4 MILLONES de personas y predijeron que Roosevelt perdería. Falló porque encuestaron a gente rica (suscriptores). <strong>El CÓMO eliges importa más que CUÁNTOS eliges.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 12: HIPÓTESIS ============ -->
+        <div class="topic-card" id="tema12">
+            <div class="topic-header g5">
+                <div class="topic-icon"><i class="fas fa-gavel"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 12: Hipótesis y Significancia</h2>
+                    <p class="topic-subtitle">H0, H1, α, valor p, errores y potencia</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-balance-scale"></i> H0 y H1</h4>
+                        <p>H0 = status quo (no hay efecto). H1 = lo que queremos demostrar. Se busca evidencia para rechazar H0.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-percentage"></i> α y valor p</h4>
+                        <p>α = P(Error Tipo I), típicamente 0.05. Si p < α → rechazar H0. Si p ≥ α → no rechazar.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-shield-alt"></i> Errores</h4>
+                        <p>Tipo I (α): rechazar H0 verdadera. Tipo II (β): no rechazar H0 falsa. Potencia = 1 - β.</p>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Decisión</th><th>H0 verdadera</th><th>H0 falsa</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Rechazar H0</td><td>❌ Error Tipo I (α)</td><td>✅ Correcto</td></tr>
+                            <tr><td>No rechazar H0</td><td>✅ Correcto</td><td>❌ Error Tipo II (β)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="example-box">
+                    <h4><i class="fas fa-shrimp"></i> Ejemplo: camarones</h4>
+                    <p>Proveedor garantiza peso medio de 50 g. Muestra n=36: x̄=47, σ=12 → z = (47-50)/(12/6) = -1.50 → p = 0.134 ≥ 0.05 → <strong>NO rechazo H0</strong>.</p>
+                    <p style="margin-top:8px;">Con n=100: z = (46-50)/1.2 = -3.33 → p = 0.0008 < 0.05 → <strong>rechazo H0</strong>. La misma diferencia con más muestra cambió la decisión.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 13: PARAMÉTRICAS ============ -->
+        <div class="topic-card" id="tema13">
+            <div class="topic-header g6">
+                <div class="topic-icon"><i class="fas fa-vial"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 13: Pruebas Paramétricas</h2>
+                    <p class="topic-subtitle">t independiente, t pareada y ANOVA</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-users"></i> t Independiente</h4>
+                        <p>Compara 2 grupos de personas DIFERENTES. gl = n₁ + n₂ - 2</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-history"></i> t Pareada</h4>
+                        <p>Mismas personas antes/después. Se usan las DIFERENCIAS. gl = n - 1</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-layer-group"></i> ANOVA</h4>
+                        <p>Compara 3+ grupos. F = varianza entre / varianza dentro.</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Fórmulas</div>
+                    <div class="formula-content">
+                        \[ t_\text{ind} = \frac{\bar{x}_1 - \bar{x}_2}{SE} \qquad t_\text{pareada} = \frac{\bar{d}}{s_d/\sqrt{n}} \qquad F = \frac{\text{Var entre}}{\text{Var dentro}} \]
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4><i class="fas fa-coffee"></i> Ejemplo: café y tiempo de reacción</h4>
+                    <p>Con café: x̄=0.415 s. Sin café: x̄=0.356 s. t = 3.15, gl = 14, crítico = 2.145 → <strong>3.15 > 2.145, rechazo H0</strong>. El café sí afecta (alenta) las reacciones.</p>
+                </div>
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Ojo</h4>
+                    <p>ANOVA te dice que HAY diferencia entre los grupos, pero NO dice CUÁL es diferente. Para eso se usan pruebas post-hoc (Tukey).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 14: NO PARAMÉTRICAS ============ -->
+        <div class="topic-card" id="tema14">
+            <div class="topic-header g7">
+                <div class="topic-icon"><i class="fas fa-shield-alt"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 14: Pruebas No Paramétricas</h2>
+                    <p class="topic-subtitle">Mann-Whitney, Wilcoxon, Ji-cuadrado, Kruskal-Wallis</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Situación</th><th>Paramétrica</th><th>No paramétrica</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2 grupos independientes</td><td>t independiente</td><td><strong>Mann-Whitney U</strong></td></tr>
+                            <tr><td>2 grupos relacionados</td><td>t pareada</td><td><strong>Wilcoxon</strong></td></tr>
+                            <tr><td>Datos categóricos</td><td>—</td><td><strong>Ji-cuadrado χ²</strong></td></tr>
+                            <tr><td>3+ grupos</td><td>ANOVA</td><td><strong>Kruskal-Wallis</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="formula-box">
+                    <div class="formula-label">Fórmula clave</div>
+                    <div class="formula-content">
+                        \[ \chi^2 = \sum \frac{(\text{Obs} - \text{Esp})^2}{\text{Esp}} \qquad \text{Esp} = \frac{\text{total fila} \times \text{total columna}}{\text{total general}} \]
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h4><i class="fas fa-coffee"></i> Ejemplo: género y preferencia</h4>
+                    <p>χ² = 7.56, gl = 1, crítico 3.84 → <strong>7.56 > 3.84, rechazo H0</strong>. Sí hay relación entre género y preferencia café/té.</p>
+                </div>
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> ¿Cuándo usar no paramétricas?</h4>
+                    <p>Datos NO normales, ordinales, muestras pequeñas, o con valores atípicos. Usan RANGOS en vez de medias.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ CHEAT SHEET ============ -->
+        <div class="cheat-sheet" id="cheatsheet">
+            <div class="topic-header">
+                <div class="topic-icon"><i class="fas fa-bolt"></i></div>
+                <div>
+                    <h2 class="topic-title">⚡ Cheat Sheet — Todo en una mirada</h2>
+                    <p class="topic-subtitle">La hoja de referencia rápida definitiva</p>
+                </div>
+            </div>
+            <div class="cheat-grid">
+                <div class="cheat-item">
+                    <h4><i class="fas fa-calculator"></i> Combinatoria</h4>
+                    <table>
+                        <tr><td>Permutación (orden)</td><td>n! / (n-r)!</td></tr>
+                        <tr><td>Combinación (sin orden)</td><td>n! / (r!(n-r)!)</td></tr>
+                        <tr><td>Con repetición</td><td>n^r</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-dice"></i> Probabilidad</h4>
+                    <table>
+                        <tr><td>Suma (excluyentes)</td><td>P(A) + P(B)</td></tr>
+                        <tr><td>Suma (general)</td><td>P(A)+P(B)-P(A∩B)</td></tr>
+                        <tr><td>Multiplicación</td><td>P(A) × P(B)</td></tr>
+                        <tr><td>Condicional</td><td>P(A∩B)/P(B)</td></tr>
+                        <tr><td>Bayes</td><td>P(B|A)P(A)/P(B)</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-random"></i> V. Aleatorias</h4>
+                    <table>
+                        <tr><td>Esperanza</td><td>E[X] = Σx·P(x)</td></tr>
+                        <tr><td>Varianza</td><td>E[X²] - E[X]²</td></tr>
+                        <tr><td>Desv. estándar</td><td>√Var</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-bell"></i> Distribuciones</h4>
+                    <table>
+                        <tr><td>Binomial</td><td>P = C(n,k)p^k(1-p)^(n-k)</td></tr>
+                        <tr><td>E, Var Binomial</td><td>np, np(1-p)</td></tr>
+                        <tr><td>Normal z</td><td>(x-μ)/σ</td></tr>
+                        <tr><td>Poisson</td><td>λ^k e^-λ / k!</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-bullseye"></i> Inferencial</h4>
+                    <table>
+                        <tr><td>Error estándar</td><td>σ / √n</td></tr>
+                        <tr><td>z media muestral</td><td>(x̄-μ)/SE</td></tr>
+                        <tr><td>IC 95%</td><td>x̄ ± 1.96·SE</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-gavel"></i> Hipótesis</h4>
+                    <table>
+                        <tr><td>p < α</td><td>Rechazar H0</td></tr>
+                        <tr><td>p ≥ α</td><td>No rechazar H0</td></tr>
+                        <tr><td>Error Tipo I</td><td>α = 0.05</td></tr>
+                        <tr><td>Potencia</td><td>1 - β</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-vial"></i> ¿Qué prueba uso?</h4>
+                    <table>
+                        <tr><td>2 grupos indep. normales</td><td>t independiente</td></tr>
+                        <tr><td>2 grupos indep. no normales</td><td>Mann-Whitney</td></tr>
+                        <tr><td>Antes/después normal</td><td>t pareada</td></tr>
+                        <tr><td>Antes/después no normal</td><td>Wilcoxon</td></tr>
+                        <tr><td>3+ grupos normales</td><td>ANOVA</td></tr>
+                        <tr><td>3+ grupos no normales</td><td>Kruskal-Wallis</td></tr>
+                        <tr><td>Categóricos</td><td>Ji-cuadrado</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ QUIZ FINAL ============ -->
+        <div class="quiz-section" id="quiz">
+            <h2 class="quiz-title">🧠 Quiz Final: ¿Qué tanto te sabes el curso?</h2>
+
+            <div class="quiz-question" data-correct="3">
+                <div class="question-header">
+                    <div class="question-number">1</div>
+                    <p class="question-text">¿Cuántas formas hay de elegir 2 personas de 6 sin importar el orden?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) 30</div>
+                    <div class="option" data-option="2">B) 12</div>
+                    <div class="option" data-option="3">C) 15</div>
+                    <div class="option" data-option="4">D) 6</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="2">
+                <div class="question-header">
+                    <div class="question-number">2</div>
+                    <p class="question-text">Si P(A) = 0.5 y P(B) = 0.3 son mutuamente excluyentes, ¿P(A∪B)?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) 0.15</div>
+                    <div class="option" data-option="2">B) 0.8</div>
+                    <div class="option" data-option="3">C) 0.2</div>
+                    <div class="option" data-option="4">D) 1</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="4">
+                <div class="question-header">
+                    <div class="question-number">3</div>
+                    <p class="question-text">Con σ = 10 y n = 25, ¿cuál es el error estándar?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) 10</div>
+                    <div class="option" data-option="2">B) 0.4</div>
+                    <div class="option" data-option="3">C) 5</div>
+                    <div class="option" data-option="4">D) 2</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="1">
+                <div class="question-header">
+                    <div class="question-number">4</div>
+                    <p class="question-text">¿Qué prueba usas para comparar 2 grupos relacionados (antes/después) cuando los datos NO son normales?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) Wilcoxon</div>
+                    <div class="option" data-option="2">B) ANOVA</div>
+                    <div class="option" data-option="3">C) t independiente</div>
+                    <div class="option" data-option="4">D) Ji-cuadrado</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="3">
+                <div class="question-header">
+                    <div class="question-number">5</div>
+                    <p class="question-text">Si el valor p = 0.03 y α = 0.05, ¿qué decisión tomas?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) No rechazar H0</div>
+                    <div class="option" data-option="2">B) Aceptar H0</div>
+                    <div class="option" data-option="3">C) Rechazar H0</div>
+                    <div class="option" data-option="4">D) Error Tipo II</div>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz()">
+                <i class="fas fa-check-circle"></i> Verificar respuestas
+            </button>
+
+            <div class="result-box" id="result-box">
+                <div class="result-score" id="result-score">0/5</div>
+                <p id="result-message">¡Sigue practicando!</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <h3>📚 Estadística Inferencial — Guía Maestra</h3>
+        <p>Los 14 temas del curso en una sola página</p>
+        <div class="footer-progress">
+            <div class="footer-progress-fill"></div>
+        </div>
+        <p style="font-size: 0.9em;">Progreso del curso: 14/14 temas (100%)</p>
+        <div class="footer-links">
+            <a href="#tema1"><i class="fas fa-arrow-up"></i> Volver arriba</a>
+            <a href="#cheatsheet"><i class="fas fa-bolt"></i> Cheat Sheet</a>
+            <a href="#quiz"><i class="fas fa-brain"></i> Quiz Final</a>
+        </div>
+    </footer>
+
+    <script>
+        // ===== Quiz functionality =====
+        function checkQuiz() {
+            const questions = document.querySelectorAll('.quiz-question');
+            let score = 0;
+            const total = questions.length;
+            
+            questions.forEach(question => {
+                const correct = question.dataset.correct;
+                const options = question.querySelectorAll('.option');
+                let answered = false;
+                
+                options.forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                    option.style.pointerEvents = 'none';
+                    
+                    if (option.dataset.option === correct) {
+                        option.classList.add('correct');
+                    }
+                    
+                    if (option.classList.contains('selected') && option.dataset.option === correct) {
+                        score++;
+                        answered = true;
+                    } else if (option.classList.contains('selected') && option.dataset.option !== correct) {
+                        option.classList.add('incorrect');
+                        answered = true;
+                    }
+                });
+            });
+            
+            const resultBox = document.getElementById('result-box');
+            const resultScore = document.getElementById('result-score');
+            const resultMessage = document.getElementById('result-message');
+            
+            resultScore.textContent = `${score}/${total}`;
+            
+            if (score === total) {
+                resultScore.className = 'result-score excellent';
+                resultMessage.textContent = '¡Excelente! Dominas TODO el curso 🎓🎉';
+            } else if (score >= 4) {
+                resultScore.className = 'result-score good';
+                resultMessage.textContent = '¡Muy bien! Casi perfecto, revisa las que fallaste 📚';
+            } else if (score >= 3) {
+                resultScore.className = 'result-score good';
+                resultMessage.textContent = '¡Bien! Pero necesitas repasar algunos temas 💪';
+            } else {
+                resultScore.className = 'result-score needs-work';
+                resultMessage.textContent = 'Repasa los temas con calma. ¡Tú puedes! 💪';
+            }
+            
+            resultBox.classList.add('show');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ===== Option selection =====
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                question.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        // ===== Smooth scroll (handled by CSS scroll-behavior) =====
+    </script>
+</body>
+</html>
