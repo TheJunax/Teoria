@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Maestra: Matemáticas Discretas (5 Temas)</title>
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-6: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            --gradient-7: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--light);
+        }
+        
+        /* ============ NAVBAR ============ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 12px 0;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-logo {
+            font-size: 1.3em;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            max-width: 900px;
+        }
+        
+        .nav-links::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .nav-links::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* ============ HERO ============ */
+        .hero {
+            background: linear-gradient(135deg, #4338ca 0%, #8b5cf6 50%, #d946ef 100%);
+            color: white;
+            padding: 140px 30px 90px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.08" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.2em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.25em;
+            opacity: 0.95;
+            margin-bottom: 35px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px 35px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 800;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
+        
+        /* ============ SECTION NAV ============ */
+        .section-nav {
+            max-width: 1400px;
+            margin: -35px auto 40px;
+            padding: 0 25px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .section-nav-inner {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .section-nav-inner a {
+            text-decoration: none;
+            color: var(--dark);
+            background: var(--light);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .section-nav-inner a:hover {
+            background: var(--gradient-1);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .section-nav-inner a i {
+            font-size: 1.1em;
+        }
+        
+        /* ============ MAIN ============ */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto 50px;
+            padding: 0 25px;
+        }
+        
+        /* Topic Card */
+        .topic-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+            overflow: hidden;
+        }
+        
+        .topic-header {
+            padding: 25px 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .topic-header.g1 { background: var(--gradient-1); }
+        .topic-header.g2 { background: var(--gradient-2); }
+        .topic-header.g3 { background: var(--gradient-3); }
+        .topic-header.g4 { background: var(--gradient-4); }
+        .topic-header.g5 { background: var(--gradient-5); }
+        .topic-header.g6 { background: var(--gradient-6); }
+        .topic-header.g7 { background: var(--gradient-7); }
+        
+        .topic-header.g7 .topic-title, 
+        .topic-header.g7 .topic-subtitle {
+            color: #1e293b;
+        }
+        
+        .topic-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            flex-shrink: 0;
+        }
+        
+        .topic-title {
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+        
+        .topic-subtitle {
+            font-size: 0.95em;
+            opacity: 0.92;
+        }
+        
+        .topic-content {
+            padding: 30px;
+        }
+        
+        /* Grid of mini-concepts */
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .mini-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 18px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .mini-card h4 {
+            color: var(--primary);
+            font-size: 1.05em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mini-card p {
+            color: var(--gray);
+            font-size: 0.92em;
+        }
+        
+        /* Formula Box */
+        .formula-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-left: 5px solid var(--primary);
+            padding: 22px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .formula-box .formula-label {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        
+        .formula-box .formula-content {
+            text-align: center;
+            padding: 12px 0;
+            font-size: 1.15em;
+        }
+        
+        /* Example Box */
+        .example-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .example-box h4 {
+            color: var(--success);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05em;
+        }
+        
+        .example-box p, .example-box li {
+            font-size: 0.95em;
+        }
+        
+        .example-box ul, .example-box ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        
+        /* Tables */
+        .table-scroll {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 500px;
+        }
+        
+        .data-table thead {
+            background: var(--dark);
+            color: white;
+        }
+        
+        .data-table th {
+            padding: 14px 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--light);
+            text-align: center;
+            font-size: 0.92em;
+        }
+        
+        .data-table tbody tr:hover {
+            background: var(--light);
+        }
+        
+        .data-table .hl {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        /* Tip & Warning boxes */
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid var(--warning);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+        
+        .tip-box h4 {
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        
+        .tip-box p, .tip-box li {
+            color: #78350f;
+            font-size: 0.93em;
+        }
+        
+        .tip-box ul {
+            padding-left: 20px;
+        }
+        
+        .danger-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 2px solid var(--danger);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+        
+        .danger-box h4 {
+            color: #991b1b;
+            margin-bottom: 8px;
+        }
+        
+        .danger-box p, .danger-box li {
+            color: #7f1d1d;
+            font-size: 0.93em;
+        }
+        
+        .danger-box ul {
+            padding-left: 20px;
+        }
+        
+        /* ============ QUIZ ============ */
+        .quiz-section {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+        
+        .quiz-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .quiz-question {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            flex-shrink: 0;
+        }
+        
+        .question-text {
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .option {
+            background: var(--light);
+            padding: 13px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: white;
+            border-color: var(--primary);
+        }
+        
+        .option.selected {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .option.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        
+        .option.incorrect {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+        
+        .quiz-btn {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: block;
+            margin: 30px auto 0;
+        }
+        
+        .quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        .result-box {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .result-box.show {
+            display: block;
+        }
+        
+        .result-score {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .result-score.excellent { color: var(--success); }
+        .result-score.good { color: var(--warning); }
+        .result-score.needs-work { color: var(--danger); }
+        
+        /* ============ CHEAT SHEET ============ */
+        .cheat-sheet {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+            overflow: hidden;
+        }
+        
+        .cheat-sheet .topic-header {
+            background: var(--dark);
+        }
+        
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .cheat-item {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .cheat-item h4 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+        
+        .cheat-item table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        .cheat-item td {
+            padding: 8px 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .cheat-item td:first-child {
+            font-weight: 600;
+        }
+        
+        .cheat-item tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 50px 30px;
+        }
+        
+        .footer h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            opacity: 0.7;
+            margin-bottom: 25px;
+        }
+        
+        .footer-progress {
+            width: 400px;
+            max-width: 90%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            margin: 0 auto 10px;
+            overflow: hidden;
+        }
+        
+        .footer-progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 10px;
+            width: 100%;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        /* ============ GRAFICOS SVG ============ */
+        .graph-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .graph-box svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 2.2em; }
+            .nav-links { display: none; }
+            .hero-stats { gap: 15px; }
+            .stat-item { padding: 15px 20px; }
+            .stat-number { font-size: 1.8em; }
+            .topic-header { flex-direction: column; text-align: center; }
+            .topic-content { padding: 20px; }
+            .quiz-section { padding: 20px; }
+        }
+        
+        @media print {
+            .navbar, .section-nav, .quiz-section, .footer, .quiz-btn { display: none; }
+            .topic-card, .cheat-sheet { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+            body { background: white; }
+            .hero { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">🌲 Matemáticas Discretas</div>
+            <ul class="nav-links">
+                <li><a href="#tema1">1. Lógica</a></li>
+                <li><a href="#tema2">2. Conjuntos</a></li>
+                <li><a href="#tema3">3. Grafos</a></li>
+                <li><a href="#tema4">4. Árboles</a></li>
+                <li><a href="#tema5">5. Algoritmos</a></li>
+                <li><a href="#cheatsheet">Cheat Sheet</a></li>
+                <li><a href="#quiz">Quiz Final</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🎓 Guía Maestra de Matemáticas Discretas</h1>
+            <p>Los 5 temas del curso en una sola página: lógica, conjuntos, grafos, árboles y algoritmos. Perfecta para repasar y preparar exámenes.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Temas cubiertos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">35+</div>
+                    <div class="stat-label">Conceptos clave</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Fórmulas esenciales</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12+</div>
+                    <div class="stat-label">Ejemplos prácticos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SECTION NAV ================= -->
+    <div class="section-nav">
+        <div class="section-nav-inner">
+            <a href="#tema1"><i class="fas fa-microchip"></i> Lógica</a>
+            <a href="#tema2"><i class="fas fa-object-group"></i> Conjuntos</a>
+            <a href="#tema3"><i class="fas fa-project-diagram"></i> Grafos</a>
+            <a href="#tema4"><i class="fas fa-sitemap"></i> Árboles</a>
+            <a href="#tema5"><i class="fas fa-route"></i> Algoritmos</a>
+            <a href="#cheatsheet"><i class="fas fa-bolt"></i> Cheat Sheet</a>
+            <a href="#quiz"><i class="fas fa-brain"></i> Quiz Final</a>
+        </div>
+    </div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-content">
+
+        <!-- ============ TEMA 1: LÓGICA ============ -->
+        <div class="topic-card" id="tema1">
+            <div class="topic-header g1">
+                <div class="topic-icon"><i class="fas fa-microchip"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 1: Lógica Proposicional y Circuitos</h2>
+                    <p class="topic-subtitle">Proposiciones, conectores, tablas de verdad, cuantificadores y circuitos</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-check-circle"></i> Proposición</h4>
+                        <p>Oración declarativa que es V o F, <strong>no ambas</strong>. Ej: "3 es impar" (V). "¡Hola!" no es proposición.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-plug"></i> Conectores</h4>
+                        <p><code>∧</code> (y), <code>∨</code> (o), <code>¬</code> (no), <code>→</code> (si… entonces), <code>↔</code> (si y solo si).</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-table"></i> Tabla de verdad</h4>
+                        <p>Enlista todos los valores posibles de las variables y el resultado de la proposición.</p>
+                    </div>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>p</th><th>q</th><th>p ∧ q</th><th>p ∨ q</th><th>p → q</th><th>p ↔ q</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+                            <tr><td>V</td><td>F</td><td>F</td><td>V</td><td><strong class="hl">F</strong></td><td>F</td></tr>
+                            <tr><td>F</td><td>V</td><td>F</td><td>V</td><td><strong class="hl">V</strong></td><td>F</td></tr>
+                            <tr><td>F</td><td>F</td><td>F</td><td>F</td><td><strong class="hl">V</strong></td><td>V</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> El condicional p → q</h4>
+                    <p>SOLO es falso cuando el antecedente (p) es V y el consecuente (q) es F. Con antecedente falso, el condicional es V <strong>automáticamente</strong> (vacuous truth). Trampa clásica: creer que F → V es F.</p>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-label">Leyes de De Morgan (equivalencias)</div>
+                    <div class="formula-content">
+                        \[ \neg(p \land q) \equiv \neg p \lor \neg q \qquad \neg(p \lor q) \equiv \neg p \land \neg q \]
+                    </div>
+                    <div class="formula-content">
+                        \[ p \to q \equiv \neg p \lor q \equiv \neg q \to \neg p \;(\text{contrapositiva}) \]
+                    </div>
+                </div>
+
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-forward"></i> Cuantificador universal ∀</h4>
+                        <p>∀x P(x): "para TODO x, P(x)". Se niega: ∃x ¬P(x). ("Todos aprobaron" se niega: "al menos uno NO aprobó").</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-search"></i> Cuantificador existencial ∃</h4>
+                        <p>∃x P(x): "EXISTE al menos un x tal que P(x)". Se niega: ∀x ¬P(x).</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-cogs"></i> Circuitos lógicos</h4>
+                        <p>Puertas <strong>AND</strong> (∧), <strong>OR</strong> (∨) y <strong>NOT</strong> (¬). Un circuito representa una proposición compuesta.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-label">Reglas de inferencia</div>
+                    <div class="formula-content">
+                        \[ \text{Modus Ponens: } (p \to q) \land p \quad \Rightarrow \quad q \qquad \text{Modus Tollens: } (p \to q) \land \neg q \quad \Rightarrow \quad \neg p \]
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-lightbulb"></i> Ejemplo: divide y vencerás</h4>
+                    <p>Evalúa <strong>(p ∧ q) → r</strong> con p=V, q=F, r=F:</p>
+                    <ol>
+                        <li>(p ∧ q) = (V ∧ F) = <strong>F</strong></li>
+                        <li>F → r = F → F = <strong>V</strong> (antecedente falso → V)</li>
+                    </ol>
+                    <p>Resultado: <strong>Verdadero</strong>. ✅</p>
+                </div>
+
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Truco para tablas de verdad</h4>
+                    <p>Con n variables hay 2ⁿ filas. Con 2 variables: 4 filas (VV, VF, FV, FF). Resuelve PRIMERO los paréntesis más internos. La contrapositiva de p→q SIEMPRE es equivalente a la original.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 2: CONJUNTOS ============ -->
+        <div class="topic-card" id="tema2">
+            <div class="topic-header g2">
+                <div class="topic-icon"><i class="fas fa-object-group"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 2: Teoría de Conjuntos</h2>
+                    <p class="topic-subtitle">Pertenencia, inclusión, operaciones, propiedades y inclusión-exclusión</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-check"></i> Pertenencia ∈</h4>
+                        <p>a ∈ A: el elemento "a" ESTÁ dentro del conjunto A. Aplica a elementos, no a conjuntos entre sí.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-arrows-alt-h"></i> Inclusión ⊆</h4>
+                        <p>A ⊆ B: A está dentro de B (puede ser IGUAL). A ⊂ B: estrictamente menor, NUNCA igual.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-box-open"></i> Tipos de conjuntos</h4>
+                        <p><strong>Vacío ∅</strong> (sin elementos), <strong>unitario</strong> (1 elemento), <strong>universal U</strong> (todo lo de interés).</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-label">Operaciones fundamentales</div>
+                    <div class="formula-content">
+                        \[ A \cup B \; \text{(en A o en B)} \qquad A \cap B \; \text{(en A y B)} \qquad A - B \; \text{(en A, no en B)} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ \overline{A} = A' \; \text{(fuera de A)} \qquad A \triangle B = (A-B) \cup (B-A) \; \text{(en uno, NO en ambos)} \]
+                    </div>
+                </div>
+
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Error común (⊂ vs ⊆)</h4>
+                    <p>A = {1,2} y B = {1,2,3}: se cumple <strong>A ⊂ B</strong> (estrictamente menor). El conjunto vacío ∅ SIEMPRE es subconjunto de cualquier conjunto. Todo conjunto es subconjunto de sí mismo.</p>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-label">De Morgan para conjuntos</div>
+                    <div class="formula-content">
+                        \[ \overline{A \cup B} = \overline{A} \cap \overline{B} \qquad \overline{A \cap B} = \overline{A} \cup \overline{B} \]
+                    </div>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Propiedad</th><th>Fórmula</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Conmutativa</strong></td><td>A ∪ B = B ∪ A · A ∩ B = B ∩ A</td></tr>
+                            <tr><td><strong>Asociativa</strong></td><td>(A ∪ B) ∪ C = A ∪ (B ∪ C)</td></tr>
+                            <tr><td><strong>Distributiva</strong></td><td>A ∩ (B ∪ C) = (A∩B) ∪ (A∩C)</td></tr>
+                            <tr><td><strong>Absorción</strong></td><td>A ∪ (A ∩ B) = A</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-label">Inclusión-exclusión (cardinalidad)</div>
+                    <div class="formula-content">
+                        \[ |A \cup B| = |A| + |B| - |A \cap B| \]
+                    </div>
+                    <div class="formula-content">
+                        \[ |A \cup B \cup C| = |A|+|B|+|C| - |A\cap B| - |A\cap C| - |B\cap C| + |A\cap B\cap C| \]
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-coffee"></i> Ejemplo: encuesta de café y té</h4>
+                    <p>22 personas toman café, 18 té, 10 ambos. ¿Al menos una bebida?</p>
+                    <p>|C ∪ T| = 22 + 18 − 10 = <strong>30</strong>. "Al menos una" INCLUYE a los que toman ambas. Si el total es 40, ninguno = 40 − 30 = 10.</p>
+                </div>
+
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> "Al menos una" vs "exactamente una"</h4>
+                    <p>"Al menos una" = |A ∪ B| (los de ambos CUENTAN). "Exactamente una" = solo A ∪ solo B = |A| + |B| − 2|A∩B| (los de ambos se quitan dos veces).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 3: GRAFOS ============ -->
+        <div class="topic-card" id="tema3">
+            <div class="topic-header g3">
+                <div class="topic-icon"><i class="fas fa-project-diagram"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 3: Teoría de Grafos</h2>
+                    <p class="topic-subtitle">Vértices, aristas, grados, euleriano vs hamiltoniano, matriz de adyacencia</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-circle"></i> Vértices y aristas</h4>
+                        <p><strong>Vértice/nodo</strong>: punto del grafo. <strong>Arista</strong>: conexión entre dos vértices. Grafo = V + E.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-arrow-right"></i> Dirigido vs no dirigido</h4>
+                        <p>Relación mutua (llamadas, carreteras 2 vías) → <strong>no dirigido</strong>. Relación de un solo lado (seguir en IG, enlaces web) → <strong>dirigido</strong>.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-hashtag"></i> Grado de un vértice</h4>
+                        <p>Número de aristas incidentes. En dirigido: grado de entrada (in) y de salida (out).</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-label">Handshake Lemma</div>
+                    <div class="formula-content">
+                        \[ \sum_{\text{vértices}} \text{grado}(v) = 2 \cdot |E| \]
+                    </div>
+                    <p style="text-align:center; font-size:0.9em; color:var(--gray);">Cada arista aporta 2 al total de grados (una en cada extremo).</p>
+                </div>
+
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-sync-alt"></i> Ciclo Euleriano</h4>
+                        <p>Recorre TODAS las aristas una sola vez y termina donde empezó. Existe si <strong>TODOS los grados son pares</strong>.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-share-alt"></i> Camino Euleriano</h4>
+                        <p>Recorre TODAS las aristas una vez sin cerrar. Existe si hay <strong>exactamente 2 vértices con grado impar</strong> (se empieza y termina ahí).</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-map-marker-alt"></i> Ciclo Hamiltoniano</h4>
+                        <p>Visita TODOS los vértices una sola vez. No hay criterio simple (sí: cada grado ≥ n/2 es suficiente por Dirac).</p>
+                    </div>
+                </div>
+
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Euler vs Hamilton</h4>
+                    <p><strong>Euleriano = aristas</strong> (todos los grados pares). <strong>Hamiltoniano = vértices</strong> (no hay regla mágica). Confundirlos es el error #1 de este tema.</p>
+                </div>
+
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-infinity"></i> Grafo completo Kₙ</h4>
+                        <p>Todas las parejas conectadas. Aristas = n(n-1)/2. K₆ = 15 aristas. Siempre tiene ciclo hamiltoniano.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-split"></i> Grafo bipartito</h4>
+                        <p>Vértices divididos en 2 grupos, conexiones solo entre grupos. NO puede tener ciclos de longitud impar.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-table"></i> Matriz de adyacencia</h4>
+                        <p>Matriz n×n con 1 si hay arista i→j. En no dirigido es <strong>SIMÉTRICA</strong>; en dirigido puede no serlo.</p>
+                    </div>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>A</strong></td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                            <tr><td><strong>B</strong></td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                            <tr><td><strong>C</strong></td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                            <tr><td><strong>D</strong></td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Leyéndola</h4>
+                    <p>La fila A tiene 1 en B y C → existen las aristas A–B y A–C. Es simétrica → grafo no dirigido. La suma de una fila = grado del vértice.</p>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-check-circle"></i> Ejemplo: verificar ciclo euleriano</h4>
+                    <p>Grados: v1=2, v2=4, v3=4, v4=2, v5=4. ¿Ciclo euleriano?</p>
+                    <p>TODOS son pares → <strong>sí existe ciclo euleriano</strong> ✅. Y por handshake, aristas = (2+4+4+2+4)/2 = 16/2 = 8.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 4: ÁRBOLES ============ -->
+        <div class="topic-card" id="tema4">
+            <div class="topic-header g4">
+                <div class="topic-icon"><i class="fas fa-sitemap"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 4: Árboles y Estructuras Jerárquicas</h2>
+                    <p class="topic-subtitle">Definición, tipos, recorridos, árboles de expresión y MST</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-check-circle"></i> ¿Qué es un árbol?</h4>
+                        <p>Grafo <strong>conexo y sin ciclos</strong>. Con n vértices tiene <strong>exactamente n − 1 aristas</strong>.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-baby"></i> Nodos: raíz, hojas, internos</h4>
+                        <p><strong>Raíz</strong>: nodo superior. <strong>Hoja</strong>: grado 1 (sin hijos). <strong>Interno</strong>: tiene al menos un hijo.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-sort-amount-up"></i> Altura y niveles</h4>
+                        <p>Altura = nivel máximo (camino más largo raíz→hoja). Nivel = profundidad desde la raíz.</p>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula-label">Propiedades clave</div>
+                    <div class="formula-content">
+                        \[ \text{Árbol: } |E| = n - 1 \qquad \text{Binario completo de } h \text{ niveles: } 2^{h} - 1 \text{ nodos} \]
+                    </div>
+                    <div class="formula-content">
+                        \[ \text{Binario completo: hojas} = \lceil n/2 \rceil \qquad \text{internos} = \text{hojas} - 1 \]
+                    </div>
+                </div>
+
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-angle-double-left"></i> INORDEN</h4>
+                        <p>Izquierda → <strong>raíz</strong> → derecha. En un BST produce el <strong>orden ascendente</strong>.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-angle-double-up"></i> PREORDEN</h4>
+                        <p><strong>Raíz</strong> → izquierda → derecha. Se visita la raíz PRIMERO.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-angle-double-right"></i> POSORDEN</h4>
+                        <p>Izquierda → derecha → <strong>raíz</strong>. Se visita la raíz AL FINAL.</p>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Truco para recordarlos</h4>
+                    <p>El nombre dice DÓNDE va la raíz: <strong>PRE</strong>-orden = raíz al <strong>PRE</strong>ncipio · <strong>IN</strong>-orden = raíz <strong>IN</strong>termedia · <strong>POST</strong>-orden = raíz al <strong>POST</strong>final.</p>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-tree"></i> Ejemplo: recorridos</h4>
+                    <p>Árbol con raíz A, hijos B (con hijos D, E) y C (con hijos F, G):</p>
+                    <ul>
+                        <li><strong>Preorden:</strong> A, B, D, E, C, F, G</li>
+                        <li><strong>Inorden:</strong> D, B, E, A, F, C, G</li>
+                        <li><strong>Posorden:</strong> D, E, B, F, G, C, A</li>
+                    </ul>
+                </div>
+
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-calculator"></i> Árbol de expresión</h4>
+                        <p><strong>(3+4)×2</strong>: la operación de último nivel (×) es la RAÍZ. Subárbol izquierdo: 3+4. Derecho: 2.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-subscript"></i> BST (binario de búsqueda)</h4>
+                        <p>Izquierda = más pequeño, derecha = más grande. Buscar cuesta su altura: balanceado = O(log n).</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-link"></i> MST</h4>
+                        <p>Árbol de expansión mínima: subconjunto de aristas que conecta todo con el MENOR peso total. Se logra con Kruskal o Prim (Tema 5).</p>
+                    </div>
+                </div>
+
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Cuidado</h4>
+                    <p>Un BST siempre está ordenado, pero NO está garantizado que esté balanceado: si insertas en orden ya ordenado, degenera en una lista (altura = n).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TEMA 5: ALGORITMOS ============ -->
+        <div class="topic-card" id="tema5">
+            <div class="topic-header g5">
+                <div class="topic-icon"><i class="fas fa-route"></i></div>
+                <div>
+                    <h2 class="topic-title">Tema 5: Algoritmos en Grafos y Redes</h2>
+                    <p class="topic-subtitle">Prim, Kruskal, Dijkstra, Fleury y Ford-Fulkerson</p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-sort-amount-down"></i> Kruskal (MST)</h4>
+                        <p>Ordena TODAS las aristas por peso. Las toma de menor a mayor <strong>sin formar ciclos</strong>.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-seedling"></i> Prim (MST)</h4>
+                        <p>Empieza en un vértice y crece. Siempre elige la arista de <strong>menor peso</strong> disponible desde los ya conectados.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-route"></i> Dijkstra</h4>
+                        <p>Ruta de <strong>costo mínimo</strong> de un nodo a todos los demás. Relaja distancias eligiendo el más cercano. NO sirve con pesos negativos.</p>
+                    </div>
+                </div>
+
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <h4><i class="fas fa-sync-alt"></i> Fleury</h4>
+                        <p>Construye un <strong>camino/ciclo euleriano</strong>, evitando usar aristas puente si hay alternativa.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h4><i class="fas fa-water"></i> Ford-Fulkerson</h4>
+                        <p>Flujo <strong>máximo</strong> fuente→sumidero. Repite: busca un camino aumentante y empuja flujo por él hasta no quedar ninguno.</p>
+                    </div>
+                </div>
+
+                <div class="graph-box">
+                    <svg width="680" height="440" viewBox="0 0 680 440">
+                        <line x1="120" y1="140" x2="340" y2="70" stroke="#64748b" stroke-width="2"/>
+                        <line x1="340" y1="70" x2="560" y2="140" stroke="#64748b" stroke-width="2"/>
+                        <line x1="120" y1="140" x2="120" y2="380" stroke="#64748b" stroke-width="2"/>
+                        <line x1="340" y1="70" x2="340" y2="330" stroke="#64748b" stroke-width="2"/>
+                        <line x1="560" y1="140" x2="560" y2="380" stroke="#64748b" stroke-width="2"/>
+                        <line x1="120" y1="380" x2="340" y2="330" stroke="#64748b" stroke-width="2"/>
+                        <line x1="340" y1="330" x2="560" y2="380" stroke="#64748b" stroke-width="2"/>
+                        <line x1="120" y1="140" x2="340" y2="330" stroke="#64748b" stroke-width="2"/>
+                        <circle cx="207" cy="92" r="13" fill="#fff" stroke="#dc2626"/><text x="207" y="96" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">4</text>
+                        <circle cx="457" cy="92" r="13" fill="#fff" stroke="#dc2626"/><text x="457" y="96" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">6</text>
+                        <circle cx="83" cy="260" r="13" fill="#fff" stroke="#dc2626"/><text x="83" y="264" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">5</text>
+                        <circle cx="295" cy="205" r="13" fill="#fff" stroke="#dc2626"/><text x="295" y="209" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">8</text>
+                        <circle cx="483" cy="260" r="13" fill="#fff" stroke="#dc2626"/><text x="483" y="264" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">7</text>
+                        <circle cx="253" cy="382" r="13" fill="#fff" stroke="#dc2626"/><text x="253" y="386" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">3</text>
+                        <circle cx="473" cy="382" r="13" fill="#fff" stroke="#dc2626"/><text x="473" y="386" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">2</text>
+                        <circle cx="205" cy="219" r="13" fill="#fff" stroke="#dc2626"/><text x="205" y="223" text-anchor="middle" font-size="12" fill="#dc2626" font-weight="bold">9</text>
+                        <circle cx="120" cy="140" r="20" fill="#0b5394"/><text x="120" y="145" text-anchor="middle" fill="#fff" font-weight="bold">A</text>
+                        <circle cx="340" cy="70" r="20" fill="#0b5394"/><text x="340" y="75" text-anchor="middle" fill="#fff" font-weight="bold">B</text>
+                        <circle cx="560" cy="140" r="20" fill="#0b5394"/><text x="560" y="145" text-anchor="middle" fill="#fff" font-weight="bold">C</text>
+                        <circle cx="120" cy="380" r="20" fill="#0b5394"/><text x="120" y="385" text-anchor="middle" fill="#fff" font-weight="bold">D</text>
+                        <circle cx="340" cy="330" r="20" fill="#0b5394"/><text x="340" y="335" text-anchor="middle" fill="#fff" font-weight="bold">E</text>
+                        <circle cx="560" cy="380" r="20" fill="#0b5394"/><text x="560" y="385" text-anchor="middle" fill="#fff" font-weight="bold">F</text>
+                    </svg>
+                    <p style="font-size:0.9em; color:var(--gray);">Grafo de ejemplo con pesos: A–B=4, B–C=6, A–D=5, B–E=8, C–F=7, D–E=3, E–F=2, A–E=9</p>
+                </div>
+
+                <div class="example-box">
+                    <h4><i class="fas fa-tree"></i> Ejemplo: Kruskal paso a paso</h4>
+                    <ol>
+                        <li>Ordenar aristas: E–F(2), D–E(3), A–B(4), A–D(5), B–C(6), C–F(7), B–E(8), A–E(9)</li>
+                        <li>Tomar E–F (2) ✅ · D–E (3) ✅ · A–B (4) ✅ · A–D (5) ✅ · B–C (6) ✅</li>
+                        <li>C–F (7) forma ciclo (C–B–A–D–E–F) → se descarta ❌</li>
+                        <li>B–E (8) forma ciclo → se descarta ❌ · A–E (9) idem ❌</li>
+                        <li>MST = {E–F, D–E, A–B, A–D, B–C}. Peso total = 2+3+4+5+6 = <strong>20</strong> ✅</li>
+                    </ol>
+                </div>
+
+                <div class="tip-box">
+                    <h4><i class="fas fa-lightbulb"></i> Repaso de los algoritmos</h4>
+                    <p><strong>Kruskal</strong>: aristas globales de menor a mayor. · <strong>Prim</strong>: crecer desde un vértice con la menor arista. · <strong>Dijkstra</strong>: distancias más cortas. · <strong>Fleury</strong>: caminos eulerianos. · <strong>Ford-Fulkerson</strong>: flujo máximo por caminos aumentantes. Ambos MST dan el MISMO peso total.</p>
+                </div>
+
+                <div class="danger-box">
+                    <h4><i class="fas fa-exclamation-circle"></i> Errores frecuentes</h4>
+                    <ul>
+                        <li><strong>Dijkstra con pesos negativos</strong>: NO funciona, hay que usar Bellman-Ford.</li>
+                        <li><strong>Confundir Dijkstra con MST</strong>: Dijkstra minimiza la ruta A→B; MST minimiza el total de conexión de todos.</li>
+                        <li><strong>TSP</strong> (visitar todas las ciudades con el menor camino) es NP-completo; no confundir con ninguno de los anteriores.</li>
+                        <li>En Kruskal, saltarse aristas que formen ciclos es OBLIGATORIO, no opcional.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ CHEAT SHEET ============ -->
+        <div class="cheat-sheet" id="cheatsheet">
+            <div class="topic-header">
+                <div class="topic-icon"><i class="fas fa-bolt"></i></div>
+                <div>
+                    <h2 class="topic-title">⚡ Cheat Sheet — Todo en una mirada</h2>
+                    <p class="topic-subtitle">La hoja de referencia rápida definitiva</p>
+                </div>
+            </div>
+            <div class="cheat-grid">
+                <div class="cheat-item">
+                    <h4><i class="fas fa-microchip"></i> Lógica</h4>
+                    <table>
+                        <tr><td>¬(p∧q)</td><td>¬p ∨ ¬q</td></tr>
+                        <tr><td>¬(p∨q)</td><td>¬p ∧ ¬q</td></tr>
+                        <tr><td>p → q</td><td>¬p ∨ q ≡ ¬q → ¬p</td></tr>
+                        <tr><td>¬(∀x P)</td><td>∃x ¬P</td></tr>
+                        <tr><td>Modus ponens</td><td>(p→q) ∧ p ⇒ q</td></tr>
+                        <tr><td>Modus tollens</td><td>(p→q) ∧ ¬q ⇒ ¬p</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-object-group"></i> Conjuntos</h4>
+                    <table>
+                        <tr><td>Unión</td><td>A ∪ B</td></tr>
+                        <tr><td>Intersección</td><td>A ∩ B</td></tr>
+                        <tr><td>Diferencia</td><td>A − B</td></tr>
+                        <tr><td>Complemento</td><td>Ā = A′</td></tr>
+                        <tr><td>|A∪B|</td><td>|A|+|B|−|A∩B|</td></tr>
+                        <tr><td>|A∪B∪C|</td><td>Σ1 − Σ2 + |ABC|</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-project-diagram"></i> Grafos</h4>
+                    <table>
+                        <tr><td>Handshake</td><td>Σ grados = 2|E|</td></tr>
+                        <tr><td>Ciclo euleriano</td><td>TODOS grados par</td></tr>
+                        <tr><td>Camino euleriano</td><td>Exactamente 2 impares</td></tr>
+                        <tr><td>Completo Kₙ</td><td>n(n−1)/2 aristas</td></tr>
+                        <tr><td>Bipartito</td><td>Sin ciclos impares</td></tr>
+                        <tr><td>Matriz adyacencia</td><td>Simétrica si no dirigido</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-sitemap"></i> Árboles</h4>
+                    <table>
+                        <tr><td>Aristas de un árbol</td><td>n − 1</td></tr>
+                        <tr><td>Binario completo</td><td>2^h − 1 nodos</td></tr>
+                        <tr><td>Preorden</td><td>raíz → izq → der</td></tr>
+                        <tr><td>Inorden</td><td>izq → raíz → der</td></tr>
+                        <tr><td>Posorden</td><td>izq → der → raíz</td></tr>
+                        <tr><td>Inorden de un BST</td><td>orden ascendente</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-route"></i> Algoritmos</h4>
+                    <table>
+                        <tr><td>Kruskal</td><td>aristas globales, menor→mayor</td></tr>
+                        <tr><td>Prim</td><td>crece desde un vértice</td></tr>
+                        <tr><td>Dijkstra</td><td>ruta mínima (sin negativos)</td></tr>
+                        <tr><td>Fleury</td><td>camino euleriano</td></tr>
+                        <tr><td>Ford-Fulkerson</td><td>flujo máximo</td></tr>
+                    </table>
+                </div>
+                <div class="cheat-item">
+                    <h4><i class="fas fa-question-circle"></i> ¿Quedó claro?</h4>
+                    <table>
+                        <tr><td>¿Se recorre TODO el grafo?</td><td>→ Euler (aristas) o Hamilton (vértices)</td></tr>
+                        <tr><td>¿Conexión mínima total?</td><td>→ MST (Kruskal/Prim)</td></tr>
+                        <tr><td>¿Ruta más corta A→B?</td><td>→ Dijkstra</td></tr>
+                        <tr><td>¿Máximo flujo?</td><td>→ Ford-Fulkerson</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ QUIZ FINAL ============ -->
+        <div class="quiz-section" id="quiz">
+            <h2 class="quiz-title">🧠 Quiz Final: ¿Qué tanto te sabes Discretas?</h2>
+
+            <div class="quiz-question" data-correct="3">
+                <div class="question-header">
+                    <div class="question-number">1</div>
+                    <p class="question-text">Un grafo tiene grados v1=3, v2=3, v3=2, v4=2. ¿Cuántas aristas tiene?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) 10</div>
+                    <div class="option" data-option="2">B) 8</div>
+                    <div class="option" data-option="3">C) 5</div>
+                    <div class="option" data-option="4">D) 6</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="2">
+                <div class="question-header">
+                    <div class="question-number">2</div>
+                    <p class="question-text">Grados: v1=2, v2=2, v3=4, v4=2. ¿Existe un ciclo euleriano?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) No, hay grados impares</div>
+                    <div class="option" data-option="2">B) Sí, todos los grados son pares</div>
+                    <div class="option" data-option="3">C) Solo camino euleriano</div>
+                    <div class="option" data-option="4">D) No se puede saber</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="1">
+                <div class="question-header">
+                    <div class="question-number">3</div>
+                    <p class="question-text">La negación de "Todos los estudiantes aprobaron" es:</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) Al menos un estudiante NO aprobó</div>
+                    <div class="option" data-option="2">B) Ningún estudiante aprobó</div>
+                    <div class="option" data-option="3">C) Nadie sabe</div>
+                    <div class="option" data-option="4">D) Todos reprobaron</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="4">
+                <div class="question-header">
+                    <div class="question-number">4</div>
+                    <p class="question-text">Un árbol tiene 12 vértices. ¿Cuántas aristas tiene?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) 12</div>
+                    <div class="option" data-option="2">B) 10</div>
+                    <div class="option" data-option="3">C) 24</div>
+                    <div class="option" data-option="4">D) 11</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="2">
+                <div class="question-header">
+                    <div class="question-number">5</div>
+                    <p class="question-text">En el árbol de expresión (3 + 4) × 2, ¿cuál es la operación en la raíz?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) +</div>
+                    <div class="option" data-option="2">B) ×</div>
+                    <div class="option" data-option="3">C) 3</div>
+                    <div class="option" data-option="4">D) 2</div>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-correct="3">
+                <div class="question-header">
+                    <div class="question-number">6</div>
+                    <p class="question-text">¿Cuál algoritmo NO funciona si hay aristas con peso negativo?</p>
+                </div>
+                <div class="options">
+                    <div class="option" data-option="1">A) Kruskal</div>
+                    <div class="option" data-option="2">B) Prim</div>
+                    <div class="option" data-option="3">C) Dijkstra</div>
+                    <div class="option" data-option="4">D) Fleury</div>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz()">
+                <i class="fas fa-check-circle"></i> Verificar respuestas
+            </button>
+
+            <div class="result-box" id="result-box">
+                <div class="result-score" id="result-score">0/6</div>
+                <p id="result-message">¡Sigue practicando!</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <h3>📚 Matemáticas Discretas — Guía Maestra</h3>
+        <p>Los 5 temas del curso en una sola página</p>
+        <div class="footer-progress">
+            <div class="footer-progress-fill"></div>
+        </div>
+        <p style="font-size: 0.9em;">Progreso del curso: 5/5 temas (100%)</p>
+        <div class="footer-links">
+            <a href="#tema1"><i class="fas fa-arrow-up"></i> Volver arriba</a>
+            <a href="#cheatsheet"><i class="fas fa-bolt"></i> Cheat Sheet</a>
+            <a href="#quiz"><i class="fas fa-brain"></i> Quiz Final</a>
+        </div>
+    </footer>
+
+    <script>
+        // ===== Quiz functionality =====
+        function checkQuiz() {
+            const questions = document.querySelectorAll('.quiz-question');
+            let score = 0;
+            const total = questions.length;
+            
+            questions.forEach(question => {
+                const correct = question.dataset.correct;
+                const options = question.querySelectorAll('.option');
+                let answered = false;
+                
+                options.forEach(option => {
+                    option.classList.remove('correct', 'incorrect');
+                    option.style.pointerEvents = 'none';
+                    
+                    const isCorrect = option.dataset.option === correct;
+                    if (isCorrect) option.classList.add('correct');
+                    
+                    if (option.classList.contains('selected')) {
+                        answered = true;
+                        if (isCorrect) {
+                            score++;
+                        } else {
+                            option.classList.add('incorrect');
+                        }
+                    }
+                });
+            });
+            
+            const resultBox = document.getElementById('result-box');
+            const resultScore = document.getElementById('result-score');
+            const resultMessage = document.getElementById('result-message');
+            
+            resultScore.textContent = `${score}/${total}`;
+            
+            if (score === total) {
+                resultScore.className = 'result-score excellent';
+                resultMessage.textContent = '¡Excelente! Dominas TODO el curso 🎓🎉';
+            } else if (score >= 5) {
+                resultScore.className = 'result-score good';
+                resultMessage.textContent = '¡Muy bien! Casi perfecto, revisa las que fallaste 📚';
+            } else if (score >= 4) {
+                resultScore.className = 'result-score good';
+                resultMessage.textContent = '¡Bien! Pero necesitas repasar algunos temas 💪';
+            } else {
+                resultScore.className = 'result-score needs-work';
+                resultMessage.textContent = 'Repasa los temas con calma. ¡Tú puedes! 💪';
+            }
+            
+            resultBox.classList.add('show');
+            resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ===== Option selection =====
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                question.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
